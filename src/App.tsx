@@ -2,18 +2,19 @@ import { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
-  const deadline = new Date(2022, 5, 29);
+  const deadline = new Date(2022, 4, 29);
   const [days, setDays] = useState(0);
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
+  const [username, setUsername] = useState("Bagus");
 
   useEffect(() => {
     let inter = setInterval(() => {
       let currentDate = new Date();
       let time_difference = deadline.getTime() - currentDate.getTime();
       setDays(Math.floor(time_difference / (1000 * 60 * 60 * 24)));
-      setHours(Math.floor((time_difference / (1000 * 60 * 60)) % 60));
+      setHours(Math.floor((time_difference / (1000 * 60 * 60)) % 24));
       setMinutes(Math.floor((time_difference / (1000 * 60)) % 60));
       setSeconds(Math.floor((time_difference / 1000) % 60));
     }, 1000);
@@ -25,7 +26,13 @@ function App() {
   return (
     <div className="h-screen w-screen flex flex-col bg-orange-200">
       <div className="text-6xl font-bold mx-auto mt-auto mb-2 text-red-800">
-        Bagus Restaurant
+        {username} Restaurant
+      </div>
+      <div className="mx-auto">
+        <input
+          className="px-4"
+          onChange={(event) => setUsername(event.currentTarget.value)}
+        />
       </div>
       <div className="text-4xl font-semibold mx-auto my-2 text-red-500">
         Coming Soon
