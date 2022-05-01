@@ -1,69 +1,74 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import axios from "axios";
+
+import {
+  useNavigate,
+  BrowserRouter as Router,
+  Route,
+  Routes,
+} from "react-router-dom";
+import Home from "./pages/Home";
+import ProtectedRoutes from "./ProtectedRoutes";
+import Dashboard from "./pages/Dashboard";
+import Login from "./pages/Login";
 
 function App() {
-  const deadline = new Date(2022, 4, 29);
-  const [days, setDays] = useState(0);
-  const [hours, setHours] = useState(0);
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(0);
-  const [username, setUsername] = useState("Bagus");
+  axios.defaults.headers.common[
+    "Authorization"
+  ] = `Bearer ${localStorage.getItem("accessToken")}`;
+  const [userData, setUserData] = useState({
+    username: null,
+    password: null,
+  });
+  const [loading, setLoading] = useState(true);
+  const [access, setAccess] = useState(false);
 
-  useEffect(() => {
-    let inter = setInterval(() => {
-      let currentDate = new Date();
-      let time_difference = deadline.getTime() - currentDate.getTime();
-      setDays(Math.floor(time_difference / (1000 * 60 * 60 * 24)));
-      setHours(Math.floor((time_difference / (1000 * 60 * 60)) % 24));
-      setMinutes(Math.floor((time_difference / (1000 * 60)) % 60));
-      setSeconds(Math.floor((time_difference / 1000) % 60));
-    }, 1000);
-    return () => {
-      clearInterval(inter);
-    };
-  }, []);
-
+  const useAuth = async () => {
+    console.log('access before verification" ' + access);
+    console.log(axios.defaults.headers.common["Authorization"]);
+    await axios
+      .post("http://localhost:1337/token")
+      .then((response) => response.data.data)
+      .then((data) => {
+        console.log(data);
+        if (data.tokenVerificationData.access) {
+          setUserData(data.tokenVerificationData.user);
+        } else {
+          window.location.href = "/";
+        }
+        console.log(
+          "access from verification: " + data.tokenVerificationData.access
+        );
+        setAccess(data.tokenVerificationData.access);
+        console.log("access after verification: " + access);
+        setLoading(false);
+      });
+  };
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    setAccess(false);
+  };
   return (
-    <div className="h-screen w-screen flex flex-col bg-orange-200">
-      <div className="text-6xl font-bold mx-auto mt-auto mb-2 text-red-800">
-        {username} Restaurant
+    <Router>
+      <div className="h-screen w-screen flex flex-col bg-orange-200">
+        <Routes>
+          <Route path="/" element={<Home handleLogout={handleLogout} />} />
+          <Route path="/login" element={<Login />} />
+          <Route
+            element={
+              <ProtectedRoutes
+                useAuth={useAuth}
+                loading={loading}
+                access={access}
+              />
+            }
+          >
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Route>
+        </Routes>
       </div>
-      <div className="mx-auto">
-        <input
-          className="px-4"
-          onChange={(event) => setUsername(event.currentTarget.value)}
-        />
-      </div>
-      <div className="text-4xl font-semibold mx-auto my-2 text-red-500">
-        Coming Soon
-      </div>
-      <div className="inline-flex w-full justify-center mb-auto mt-2">
-        <div className="flex flex-col items-center">
-          <div className="h-20 w-20 rounded-lg bg-rose-800 text-orange-300 flex justify-center items-center text-4xl font-bold shadow-black shadow-lg mx-2">
-            {days}
-          </div>
-          <div className="text-red-400 font-semibold mt-4">DAYS</div>
-        </div>
-        <div className="flex flex-col items-center">
-          <div className="h-20 w-20 rounded-lg bg-rose-800 text-orange-300 flex justify-center items-center text-4xl font-bold shadow-black shadow-lg mx-2">
-            {hours}
-          </div>
-          <div className="text-red-400 font-semibold mt-4">HOURS</div>
-        </div>
-        <div className="flex flex-col items-center">
-          <div className="h-20 w-20 rounded-lg bg-rose-800 text-orange-300 flex justify-center items-center text-4xl font-bold shadow-black shadow-lg mx-2">
-            {minutes}
-          </div>
-          <div className="text-red-400 font-semibold mt-4">MINUTES</div>
-        </div>
-        <div className="flex flex-col items-center">
-          <div className="h-20 w-20 rounded-lg bg-rose-800 text-orange-300 flex justify-center items-center text-4xl font-bold shadow-black shadow-lg mx-2">
-            {seconds}
-          </div>
-          <div className="text-red-400 font-semibold mt-4">SECONDS</div>
-        </div>
-      </div>
-    </div>
+    </Router>
   );
 }
 
