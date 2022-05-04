@@ -22,14 +22,6 @@ const Home: React.FC<{ handleLogout: () => void }> = ({ handleLogout }) => {
 
   return (
     <>
-      <div className="mx-auto inline-flex my-2">
-        <button
-          className="mx-2 px-4 py-2 rounded-lg bg-slate-600"
-          onClick={handleLogout}
-        >
-          Logout
-        </button>
-      </div>
       <div className="text-6xl font-bold mx-auto mt-auto mb-2 text-red-800">
         CSIT314 Restaurant
       </div>

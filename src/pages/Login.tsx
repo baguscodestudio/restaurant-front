@@ -1,9 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("Bagus");
+  const [username, setUsername] = useState("");
+  const navigate = useNavigate();
+
   const handleLogin = () => {
     axios
       .post("http://localhost:1337/login", {
@@ -12,13 +17,28 @@ const Login = () => {
       })
       .then((response) => {
         if (response.status === 200) {
-          console.log(response.data.data.token);
           localStorage.setItem("accessToken", response.data.data.token);
-
-          console.log(response.data);
+          localStorage.setItem(
+            "userData",
+            JSON.stringify(response.data.data.user)
+          );
+          toast("Successfully logged in!", {
+            position: "bottom-left",
+            progress: undefined,
+          });
+          navigate("/dashboard");
         } else {
-          console.log("failed");
+          toast.error(response.data.message, {
+            position: "bottom-left",
+            progress: undefined,
+          });
         }
+      })
+      .catch((err) => {
+        toast.error(err.response.data.message, {
+          position: "bottom-left",
+          progress: undefined,
+        });
       });
   };
 
@@ -38,32 +58,37 @@ const Login = () => {
   };
   return (
     <>
-      <div className="mx-auto my-2">
+      <div className="text-2xl mx-auto mt-40 mb-2 bg-neutral-300 w-1/4 h-36 flex justify-center items-center">
+        CSIT314 Restaurant
+      </div>
+      <div className="mx-auto mb-2 mt-12">
         <input
-          className="px-4"
+          className="px-4 py-3 placeholder-gray-500 w-96 border-2 rounded-lg text-xl"
+          placeholder="Username"
           onChange={(event) => setUsername(event.currentTarget.value)}
         />
       </div>
       <div className="mx-auto my-2">
         <input
+          className="px-4 py-3 placeholder-gray-500 w-96 border-2 rounded-lg text-xl"
+          placeholder="Password"
           type="password"
-          className="px-4"
           onChange={(event) => setPassword(event.currentTarget.value)}
         />
       </div>
-      <div className="mx-auto inline-flex my-2">
+      <div className="mx-auto inline-flex my-2 text-white">
         <button
-          className="mx-2 px-4 py-2 rounded-lg bg-slate-600"
+          className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#0B3835] hover:bg-[#27635e] transition-colors duration-150"
           onClick={handleLogin}
         >
           Login
         </button>
-        <button
+        {/* <button
           className="mx-2 px-4 py-2 rounded-lg bg-slate-600"
           onClick={handleRegister}
         >
           Register
-        </button>
+        </button> */}
       </div>
     </>
   );
