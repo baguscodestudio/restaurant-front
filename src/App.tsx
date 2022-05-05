@@ -8,10 +8,10 @@ import ProtectedRoutes from "./ProtectedRoutes";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Navbar from "./components/Navbar";
-import Logout from "./pages/Logout";
 import { toast, ToastContainer } from "react-toastify";
 import AdminDashboard from "./pages/AdminDashboard";
 import ManageProfile from "./pages/ManageProfile";
+import ManageUser from "./pages/ManageUser";
 
 function App() {
   axios.defaults.headers.common[
@@ -47,7 +47,6 @@ function App() {
     localStorage.removeItem("userData");
     setAccess(false);
     toast("Successfully logged out");
-    setTimeout(() => (window.location.href = "/"), 5000);
   };
 
   return (
@@ -81,6 +80,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/manageprofile" element={<ManageProfile />} />
+            <Route path="/manageuser" element={<ManageUser />} />
           </Route>
         </Routes>
       </div>

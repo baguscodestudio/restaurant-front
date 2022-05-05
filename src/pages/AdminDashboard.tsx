@@ -26,7 +26,7 @@ const AdminDashboard = () => {
             Manage profiles
           </Link>
           <Link
-            to="/manageaccount"
+            to="/manageuser"
             className="px-4 py-2 text-lg text-center w-52 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
           >
             Manage accounts

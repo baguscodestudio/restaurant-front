@@ -1,9 +1,11 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import SearchBar from "../components/SearchBar";
 import GetRolesController from "../controller/GetRolesController";
+import RemoveProfileController from "../controller/RemoveProfileController";
 import GetCurrentUser from "../functions/GetCurrentUser";
 import User from "../typings/User";
+import UpdateProfile from "./UpdateProfile";
 
 const ManageProfile = () => {
   const [user, setUser] = useState<User>({
@@ -13,18 +15,30 @@ const ManageProfile = () => {
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState<User[]>([]);
   const [select, setSelect] = useState(-1);
+  const [action, setAction] = useState("");
 
   const getRoles = async () => {
     let GetRoles = new GetRolesController();
     let response = await GetRoles.getRoles();
-    setUsers(response?.data.users);
+    setUsers(response?.data);
+  };
+
+  const handleRemove = async () => {
+    let RemoveProfile = new RemoveProfileController();
+    let response = await RemoveProfile.removeProfile(users[select].userid);
+    if (response?.status == 200) {
+      getRoles();
+      toast("Successfully removed user role");
+    } else {
+      toast("Failed to remove user role");
+    }
   };
 
   useEffect(() => {
     setUser(GetCurrentUser());
     getRoles();
   }, [localStorage.getItem("userData")]);
-  if (user.role == "admin") {
+  if (user.role === "admin" && action === "") {
     return (
       <>
         <div className="w-11/12 my-2 mx-auto">
@@ -44,7 +58,7 @@ const ManageProfile = () => {
                   {index == select ? (
                     <tr
                       key={index}
-                      className="h-4 bg-[#27635e] hover:bg-[#134E4A] hover:cursor-pointer"
+                      className="text-white h-4 bg-[#27635e] hover:bg-[#134E4A] hover:cursor-pointer"
                       onClick={() => setSelect(index)}
                     >
                       <td>{user.username}</td>
@@ -53,7 +67,7 @@ const ManageProfile = () => {
                   ) : (
                     <tr
                       key={index}
-                      className="h-4 hover:bg-[#134E4A] hover:cursor-pointer"
+                      className="h-4 hover:bg-[#134E4A] hover:text-white hover:cursor-pointer"
                       onClick={() => setSelect(index)}
                     >
                       <td>{user.username}</td>
@@ -65,16 +79,24 @@ const ManageProfile = () => {
             </tbody>
           </table>
           <div className="inline-flex w-full mt-auto text-white">
-            <button className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150">
+            <button
+              className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
+              onClick={() => setAction("update")}
+            >
               Update
             </button>
-            <button className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150">
+            <button
+              className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
+              onClick={handleRemove}
+            >
               Remove
             </button>
           </div>
         </div>
       </>
     );
+  } else if (user.role === "admin" && action === "update") {
+    return <UpdateProfile user={users[select]} setAction={setAction} />;
   } else {
     return null;
   }
