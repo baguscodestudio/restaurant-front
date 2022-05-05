@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const Home: React.FC<{ handleLogout: () => void }> = ({ handleLogout }) => {
+const Home = () => {
   const deadline = new Date(2022, 4, 29);
   const [days, setDays] = useState(0);
   const [hours, setHours] = useState(0);

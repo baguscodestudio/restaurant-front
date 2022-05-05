@@ -10,9 +10,7 @@ const ProtectedRoutes = ({
   access: boolean;
   loading: boolean;
 }) => {
-  useEffect(() => {
-    useAuth();
-  }, []);
+  useAuth();
 
   if (loading) {
     return <div className="m-auto text-2xl font-bold">Loading ....</div>;

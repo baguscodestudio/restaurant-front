@@ -2,12 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import axios from "axios";
 
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  useNavigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import ProtectedRoutes from "./ProtectedRoutes";
 import Dashboard from "./pages/Dashboard";
@@ -15,6 +10,8 @@ import Login from "./pages/Login";
 import Navbar from "./components/Navbar";
 import Logout from "./pages/Logout";
 import { toast, ToastContainer } from "react-toastify";
+import AdminDashboard from "./pages/AdminDashboard";
+import ManageProfile from "./pages/ManageProfile";
 
 function App() {
   axios.defaults.headers.common[
@@ -26,8 +23,9 @@ function App() {
   const useAuth = async () => {
     await axios
       .post("http://localhost:1337/token")
-      .then((response) => response.data.data)
+      .then((response) => response.data)
       .then((data) => {
+        console.log(data);
         if (data.tokenVerificationData.access) {
           localStorage.setItem(
             "userData",
@@ -38,14 +36,20 @@ function App() {
 
         setAccess(data.tokenVerificationData.access);
         setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
+
   const resetSession = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("userData");
     setAccess(false);
     toast("Successfully logged out");
+    setTimeout(() => (window.location.href = "/"), 5000);
   };
+
   return (
     <Router>
       <div className="h-screen w-screen flex flex-col">
@@ -61,9 +65,9 @@ function App() {
           pauseOnHover
           theme="dark"
         />
-        <Navbar />
+        <Navbar resetSession={resetSession} />
         <Routes>
-          <Route path="/" element={<Home handleLogout={resetSession} />} />
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route
             element={
@@ -75,10 +79,8 @@ function App() {
             }
           >
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route
-              path="/logout"
-              element={<Logout resetSession={resetSession} />}
-            />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/manageprofile" element={<ManageProfile />} />
           </Route>
         </Routes>
       </div>

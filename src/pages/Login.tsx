@@ -3,43 +3,30 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import LoginController from "../controller/LoginController";
 
 const Login = () => {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    axios
-      .post("http://localhost:1337/login", {
-        username: username,
-        password: password,
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          localStorage.setItem("accessToken", response.data.data.token);
-          localStorage.setItem(
-            "userData",
-            JSON.stringify(response.data.data.user)
-          );
-          toast("Successfully logged in!", {
-            position: "bottom-left",
-            progress: undefined,
-          });
-          navigate("/dashboard");
-        } else {
-          toast.error(response.data.message, {
-            position: "bottom-left",
-            progress: undefined,
-          });
-        }
-      })
-      .catch((err) => {
-        toast.error(err.response.data.message, {
-          position: "bottom-left",
-          progress: undefined,
-        });
+  const handleLogin = async () => {
+    let Login = new LoginController();
+    let response = await Login.handleLogin(username, password);
+    if (response?.status === 200) {
+      localStorage.setItem("accessToken", response.data.data.token);
+      localStorage.setItem("userData", JSON.stringify(response.data.data.user));
+      toast("Successfully logged in!", {
+        position: "bottom-left",
+        progress: undefined,
       });
+      navigate("/dashboard");
+    } else {
+      toast.error(response?.data.message, {
+        position: "bottom-left",
+        progress: undefined,
+      });
+    }
   };
 
   const handleRegister = () => {
@@ -78,17 +65,17 @@ const Login = () => {
       </div>
       <div className="mx-auto inline-flex my-2 text-white">
         <button
-          className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#0B3835] hover:bg-[#27635e] transition-colors duration-150"
+          className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
           onClick={handleLogin}
         >
           Login
         </button>
-        {/* <button
-          className="mx-2 px-4 py-2 rounded-lg bg-slate-600"
+        <button
+          className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
           onClick={handleRegister}
         >
           Register
-        </button> */}
+        </button>
       </div>
     </>
   );
