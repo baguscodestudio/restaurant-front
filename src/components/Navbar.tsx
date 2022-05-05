@@ -15,14 +15,27 @@ const Navbar: React.FC<{ resetSession: () => void }> = ({ resetSession }) => {
 
   return (
     <div className="w-full bg-neutral-300 h-12 shadow-lg inline-flex justify-end pr-4">
-      <Link
-        to="/"
-        className="h-full px-4 hover:text-white hover:bg-[#134E4A] flex items-center"
-      >
-        Home
-      </Link>
+      <div className="h-full inline-flex mr-auto ml-4">
+        <Link
+          to="/"
+          className="h-full px-4 hover:text-white hover:bg-[#134E4A] flex items-center"
+        >
+          Home
+        </Link>
+        {user.role === "admin" && (
+          <Link
+            to="/admin"
+            className="h-full px-4 hover:text-white hover:bg-[#0B3835] flex items-center"
+          >
+            Administration
+          </Link>
+        )}
+      </div>
       {user.username.length > 0 ? (
         <>
+          <div className="h-full px-4 flex items-center">
+            Logged in as {`${user.username} (${user.role})`}
+          </div>
           <button
             onClick={resetSession}
             className="h-full px-4 hover:text-white hover:bg-[#134E4A] flex items-center"
@@ -36,14 +49,6 @@ const Navbar: React.FC<{ resetSession: () => void }> = ({ resetSession }) => {
           className="h-full px-4 hover:text-white hover:bg-[#0B3835] flex items-center"
         >
           Login
-        </Link>
-      )}
-      {user.role === "admin" && (
-        <Link
-          to="/admin"
-          className="h-full px-4 hover:text-white hover:bg-[#0B3835] flex items-center"
-        >
-          Administration
         </Link>
       )}
     </div>
