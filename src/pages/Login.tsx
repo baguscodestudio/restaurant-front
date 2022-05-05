@@ -22,7 +22,7 @@ const Login = () => {
       });
       navigate("/dashboard");
     } else {
-      toast.error(response?.data.message, {
+      toast.error(response?.response.data.message, {
         position: "bottom-left",
         progress: undefined,
       });

@@ -20,6 +20,7 @@ export default class User {
       })
       .catch((err) => {
         console.log("error occured", err);
+        return err;
       });
   }
 

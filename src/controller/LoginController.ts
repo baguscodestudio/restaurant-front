@@ -4,10 +4,7 @@ import { toast } from "react-toastify";
 import { AxiosResponse } from "axios";
 
 export default class LoginController {
-  public async handleLogin(
-    username: String,
-    password: String
-  ): Promise<AxiosResponse> {
+  public async handleLogin(username: String, password: String) {
     const user = new User(username, password);
     let response = await user.login();
     return response!;
