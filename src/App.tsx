@@ -12,6 +12,7 @@ import { toast, ToastContainer } from "react-toastify";
 import AdminDashboard from "./pages/AdminDashboard";
 import ManageProfile from "./pages/ManageProfile";
 import ManageUser from "./pages/ManageUser";
+import ManageMenu from "./pages/ManageMenu";
 
 function App() {
   axios.defaults.headers.common[
@@ -81,6 +82,7 @@ function App() {
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/manageprofile" element={<ManageProfile />} />
             <Route path="/manageuser" element={<ManageUser />} />
+            <Route path="/managemenu" element={<ManageMenu />} />
           </Route>
         </Routes>
       </div>
