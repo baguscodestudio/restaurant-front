@@ -47,29 +47,33 @@ const ManageProfile = () => {
               </tr>
             </thead>
             <tbody>
-              {users.map((user, index) => (
-                <>
-                  {index == select ? (
-                    <tr
-                      key={index}
-                      className="text-white h-4 bg-[#27635e] hover:bg-[#134E4A] hover:cursor-pointer"
-                      onClick={() => setSelect(index)}
-                    >
-                      <td>{user.username}</td>
-                      <td>{user.role}</td>
-                    </tr>
-                  ) : (
-                    <tr
-                      key={index}
-                      className="h-4 hover:bg-[#134E4A] hover:text-white hover:cursor-pointer"
-                      onClick={() => setSelect(index)}
-                    >
-                      <td>{user.username}</td>
-                      <td>{user.role}</td>
-                    </tr>
-                  )}
-                </>
-              ))}
+              {users
+                .filter((user) =>
+                  user.username.toLowerCase().includes(search.toLowerCase())
+                )
+                .map((user, index) => (
+                  <>
+                    {index == select ? (
+                      <tr
+                        key={index}
+                        className="text-white h-4 bg-[#27635e] hover:bg-[#134E4A] hover:cursor-pointer"
+                        onClick={() => setSelect(index)}
+                      >
+                        <td>{user.username}</td>
+                        <td>{user.role}</td>
+                      </tr>
+                    ) : (
+                      <tr
+                        key={index}
+                        className="h-4 hover:bg-[#134E4A] hover:text-white hover:cursor-pointer"
+                        onClick={() => setSelect(index)}
+                      >
+                        <td>{user.username}</td>
+                        <td>{user.role}</td>
+                      </tr>
+                    )}
+                  </>
+                ))}
             </tbody>
           </table>
           <div className="inline-flex w-full mt-auto text-white">
