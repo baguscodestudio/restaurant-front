@@ -11,7 +11,7 @@ export default class Profile {
 
   public async getUserRoles() {
     return await axios
-      .get(`http://localhost:1337/getRoles`)
+      .get(`http://localhost:1337/roles/`)
       .then((response) => {
         return response;
       })
@@ -22,8 +22,7 @@ export default class Profile {
 
   public async updateProfile() {
     return await axios
-      .post("http://localhost:1337/updateRole", {
-        userid: this.userid,
+      .put(`http://localhost:1337/roles/${this.userid}`, {
         role: this.role,
       })
       .then((response) => response)
@@ -32,9 +31,7 @@ export default class Profile {
 
   public async removeProfile() {
     return await axios
-      .post("http://localhost:1337/removeRole", {
-        userid: this.userid,
-      })
+      .delete(`http://localhost:1337/roles/${this.userid}`)
       .then((response) => response)
       .catch((err) => console.log("error occured", err));
   }

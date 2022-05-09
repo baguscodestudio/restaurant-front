@@ -1,17 +1,15 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { UserContext } from "../App";
 import SearchBar from "../components/SearchBar";
 import GetRolesController from "../controller/GetRolesController";
 import RemoveProfileController from "../controller/RemoveProfileController";
-import GetCurrentUser from "../functions/GetCurrentUser";
 import User from "../typings/User";
 import UpdateProfile from "./UpdateProfile";
 
 const ManageProfile = () => {
-  const [user, setUser] = useState<User>({
-    userid: 0,
-    username: "",
-  });
+  const user = useContext(UserContext);
+
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState<User[]>([]);
   const [select, setSelect] = useState(-1);
@@ -34,10 +32,6 @@ const ManageProfile = () => {
     }
   };
 
-  useEffect(() => {
-    setUser(GetCurrentUser());
-    getRoles();
-  }, [localStorage.getItem("userData")]);
   if (user.role === "admin" && action === "") {
     return (
       <>

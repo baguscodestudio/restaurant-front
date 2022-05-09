@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SearchBar from "../components/SearchBar";
 import GetUsersController from "../controller/GetUsersController";
 import DeleteUserController from "../controller/DeleteUserController";
-import GetCurrentUser from "../functions/GetCurrentUser";
+
+import { UserContext } from "../App";
 import User from "../typings/User";
 import UpdateUser from "./UpdateUser";
 import { toast } from "react-toastify";
@@ -17,10 +18,7 @@ const ManageUser = () => {
   // Title ManageUser
   // username: String
   // setSearch(String search)
-  const [user, setUser] = useState<User>({
-    userid: 0,
-    username: "",
-  });
+  const user = useContext(UserContext);
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState<User[]>([]);
   const [select, setSelect] = useState(-1);
@@ -43,11 +41,6 @@ const ManageUser = () => {
       toast("Failed to update user");
     }
   };
-
-  useEffect(() => {
-    setUser(GetCurrentUser());
-    getUsers();
-  }, [localStorage.getItem("userData")]);
 
   if (user.role == "admin" && action === "") {
     return (

@@ -26,16 +26,24 @@ export default class User {
 
   public async fetchUsers() {
     return await axios
-      .get("http://localhost:1337/users")
+      .get("http://localhost:1337/useraccounts/")
       .then((response) => response)
       .catch((err) => console.log("error occured", err));
   }
 
   public async updateUsername(userid: number) {
     return await axios
-      .post("http://localhost:1337/updateUsername", {
-        userid: userid,
+      .put(`http://localhost:1337/useraccounts/username/${userid}`, {
         username: this.username,
+      })
+      .then((response) => response)
+      .catch((err) => console.log("error occured", err));
+  }
+
+  public async updatePassword(userid: number) {
+    return await axios
+      .put(`http://localhost:1337/useraccounts/password/${userid}`, {
+        password: this.password,
       })
       .then((response) => response)
       .catch((err) => console.log("error occured", err));
@@ -43,8 +51,7 @@ export default class User {
 
   public async updateUser(userid: number) {
     return await axios
-      .post("http://localhost:1337/updateUser", {
-        userid: userid,
+      .put(`http://localhost:1337/useraccounts/${userid}`, {
         username: this.username,
         password: this.password,
       })
@@ -54,9 +61,7 @@ export default class User {
 
   public async deleteUser(userid: number) {
     return await axios
-      .post("http://localhost:1337/deleteUser", {
-        userid: userid,
-      })
+      .delete(`http://localhost:1337/useraccounts/${userid}`)
       .then((response) => response)
       .catch((err) => console.log("error occured", err));
   }

@@ -1,16 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
-import GetCurrentUser from "../functions/GetCurrentUser";
-import User from "../typings/User";
+import { UserContext } from "../App";
 
 const AdminDashboard = () => {
-  const [user, setUser] = useState<User>({
-    userid: 0,
-    username: "",
-  });
-  useEffect(() => {
-    setUser(GetCurrentUser());
-  }, [localStorage.getItem("userData")]);
+  const user = useContext(UserContext);
 
   if (user.role == "admin") {
     return (

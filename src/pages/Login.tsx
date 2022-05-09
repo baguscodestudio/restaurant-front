@@ -20,7 +20,9 @@ const Login = () => {
         position: "bottom-left",
         progress: undefined,
       });
-      navigate("/dashboard");
+      // setTimeout(() => {
+      navigate("/dashboard", { state: { user: response.data.data.user } });
+      // }, 500);
     } else {
       toast.error(response?.response.data.message, {
         position: "bottom-left",

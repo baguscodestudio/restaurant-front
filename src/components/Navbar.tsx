@@ -1,17 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
-import GetCurrentUser from "../functions/GetCurrentUser";
-import User from "../typings/User";
+import { UserContext } from "../App";
 
 const Navbar: React.FC<{ resetSession: () => void }> = ({ resetSession }) => {
-  const [user, setUser] = useState<User>({
-    userid: 0,
-    username: "",
-  });
-  useEffect(() => {
-    console.log("updating navbar");
-    setUser(GetCurrentUser());
-  }, [localStorage.getItem("userData")]);
+  const user = useContext(UserContext);
 
   return (
     <div className="w-full bg-neutral-300 h-12 shadow-lg inline-flex justify-end pr-4">

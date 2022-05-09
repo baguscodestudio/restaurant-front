@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
+import User from "./typings/User";
 
 const ProtectedRoutes = ({
   useAuth,
@@ -10,7 +11,10 @@ const ProtectedRoutes = ({
   access: boolean;
   loading: boolean;
 }) => {
-  useAuth();
+  useEffect(() => {
+    useAuth();
+  }, []);
+  // const location = useLocation();
 
   if (loading) {
     return <div className="m-auto text-2xl font-bold">Loading ....</div>;
