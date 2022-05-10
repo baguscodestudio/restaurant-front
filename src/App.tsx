@@ -16,6 +16,7 @@ import ManageMenu from "./pages/ManageMenu";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
+import Order from "./pages/Order";
 
 export const UserContext = createContext<User>({
   userid: 0,
@@ -95,6 +96,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/order" element={<Order />} />
             <Route
               element={
                 <ProtectedRoutes

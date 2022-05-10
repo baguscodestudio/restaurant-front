@@ -14,6 +14,12 @@ const Navbar: React.FC<{ resetSession: () => void }> = ({ resetSession }) => {
         >
           Home
         </Link>
+        <Link
+          to="/order"
+          className="h-full px-4 hover:text-white hover:bg-[#134E4A] flex items-center"
+        >
+          Order
+        </Link>
         {user.role === "admin" && (
           <Link
             to="/admin"

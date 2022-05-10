@@ -14,7 +14,6 @@ const ProtectedRoutes = ({
   useEffect(() => {
     useAuth();
   }, []);
-  // const location = useLocation();
 
   if (loading) {
     return <div className="m-auto text-2xl font-bold">Loading ....</div>;
