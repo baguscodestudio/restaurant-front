@@ -23,9 +23,15 @@ export const UserContext = createContext<User>({
   username: "",
 });
 
+export const TableContext = createContext({
+  tablenum: 0,
+  setTablenum: (num: number) => {},
+});
+
 function App() {
   const [loading, setLoading] = useState(true);
   const [access, setAccess] = useState(false);
+  const [tablenum, setTablenum] = useState(0);
   const [user, setUser] = useState<User>({
     userid: 0,
     username: "",
@@ -80,39 +86,41 @@ function App() {
     <Router>
       <div className="h-screen w-screen flex flex-col">
         <UserContext.Provider value={user}>
-          <ToastContainer
-            position="bottom-left"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={true}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="dark"
-          />
-          <Navbar resetSession={resetSession} />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/order" element={<Order />} />
-            <Route
-              element={
-                <ProtectedRoutes
-                  useAuth={useAuth}
-                  loading={loading}
-                  access={access}
-                />
-              }
-            >
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/manageprofile" element={<ManageProfile />} />
-              <Route path="/manageuser" element={<ManageUser />} />
-              <Route path="/managemenu" element={<ManageMenu />} />
-            </Route>
-          </Routes>
+          <TableContext.Provider value={{ tablenum, setTablenum }}>
+            <ToastContainer
+              position="bottom-left"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={true}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="dark"
+            />
+            <Navbar resetSession={resetSession} />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/order" element={<Order />} />
+              <Route
+                element={
+                  <ProtectedRoutes
+                    useAuth={useAuth}
+                    loading={loading}
+                    access={access}
+                  />
+                }
+              >
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="/manageprofile" element={<ManageProfile />} />
+                <Route path="/manageuser" element={<ManageUser />} />
+                <Route path="/managemenu" element={<ManageMenu />} />
+              </Route>
+            </Routes>
+          </TableContext.Provider>
         </UserContext.Provider>
       </div>
     </Router>

@@ -1,9 +1,10 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { UserContext } from "../App";
+import { TableContext, UserContext } from "../App";
 
 const Navbar: React.FC<{ resetSession: () => void }> = ({ resetSession }) => {
   const user = useContext(UserContext);
+  const { tablenum } = useContext(TableContext);
 
   return (
     <div className="w-full bg-neutral-300 h-12 shadow-lg inline-flex justify-end pr-4">
@@ -18,7 +19,7 @@ const Navbar: React.FC<{ resetSession: () => void }> = ({ resetSession }) => {
           to="/order"
           className="h-full px-4 hover:text-white hover:bg-[#134E4A] flex items-center"
         >
-          Order
+          Order {tablenum !== 0 && `Current table number: ${tablenum}`}
         </Link>
         {user.role === "admin" && (
           <Link

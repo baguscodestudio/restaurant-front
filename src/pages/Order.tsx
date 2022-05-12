@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Plus } from "styled-icons/bootstrap";
 import { Minus } from "styled-icons/boxicons-regular";
+import { TableContext } from "../App";
 import AddCartItemController from "../controller/AddCartItemController";
 import CreateOrderController from "../controller/CreateOrderController";
+import GetCartController from "../controller/GetCartController";
 import GetItemsController from "../controller/GetItemsController";
 import RemoveCartItemController from "../controller/RemoveCartItemController";
 import UpdateCartItemController from "../controller/UpdateCartItemController";
@@ -13,7 +15,7 @@ import OrderItem from "../typings/OrderItem";
 const Order = () => {
   const navigate = useNavigate();
   const [items, setItems] = useState<OrderItem[]>([]);
-  const [tablenum, setTablenum] = useState(1);
+  const { tablenum, setTablenum } = useContext(TableContext);
   const [confirmed, setConfirmed] = useState(false);
 
   const fetchItems = async () => {
@@ -25,6 +27,27 @@ const Order = () => {
         item.quantity = 0;
       });
       setItems(items);
+      fetchCart();
+    } else {
+      toast.error("An error occured while getting items");
+    }
+  };
+
+  const fetchCart = async () => {
+    let GetCart = new GetCartController();
+    let response = await GetCart.getCart(tablenum);
+    if (response?.status === 200) {
+      let tempItems = response.data as OrderItem[];
+      let tempArr = [...items];
+      tempArr.map((item, index) => {
+        tempItems.map((cartItem, cartIndex) => {
+          if (item.itemid === cartItem.itemid) {
+            item.quantity = cartItem.quantity;
+            return;
+          }
+        });
+      });
+      setItems([...tempArr]);
     } else {
       toast.error("An error occured while getting items");
     }
@@ -97,7 +120,7 @@ const Order = () => {
     fetchItems();
   }, []);
 
-  if (!confirmed) {
+  if (tablenum == 0) {
     return (
       <>
         <div className="mx-auto mt-52 flex flex-col items-center">
