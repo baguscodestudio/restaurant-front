@@ -19,6 +19,13 @@ export default class Order {
       .catch((err) => err);
   }
 
+  public async fetchOrderTable() {
+    return await axios
+      .get(`http://localhost:1337/order/${this.tablenum}`)
+      .then((response) => response)
+      .catch((err) => err);
+  }
+
   public async createOrder() {
     return await axios
       .post("http://localhost:1337/order/", {
@@ -45,6 +52,13 @@ export default class Order {
       .put(`http://localhost:1337/order/status/${orderid}`, {
         status: this.status,
       })
+      .then((response) => response)
+      .catch((err) => err);
+  }
+
+  public async deleteOrder(orderid: number) {
+    return await axios
+      .delete(`http://localhost:1337/order/${orderid}`)
       .then((response) => response)
       .catch((err) => err);
   }

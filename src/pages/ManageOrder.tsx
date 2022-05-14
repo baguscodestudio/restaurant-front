@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { UserContext } from "../App";
-import GetOrderController from "../controller/GetOrderController";
+import GetOrderController from "../controller/GetOrdersController";
+import RemoveOrderController from "../controller/RemoveOrderController";
 import Order from "../typings/Order";
-import OrderItem from "../typings/OrderItem";
 import UpdateOrder from "./UpdateOrder";
 
 const ManageOrder = () => {
@@ -13,7 +13,16 @@ const ManageOrder = () => {
   const [action, setAction] = useState("");
   const [select, setSelect] = useState(-1);
 
-  const handleDelete = () => {};
+  const handleDelete = async () => {
+    let DeleteOrder = new RemoveOrderController();
+    let response = await DeleteOrder.removeOrder(orders[select].orderid);
+    if (response && response.status == 200) {
+      toast("Successfully deleted order!");
+      fetchOrders();
+    } else {
+      toast.error("An error occured while deleting order");
+    }
+  };
 
   const fetchOrders = async () => {
     let GetOrder = new GetOrderController();

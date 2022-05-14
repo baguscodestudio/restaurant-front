@@ -1,4 +1,5 @@
 export default interface OrderItem {
+  tablenum: number;
   itemid: number;
   name: string;
   price: number;

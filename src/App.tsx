@@ -18,6 +18,7 @@ import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Order from "./pages/CreateOrder";
 import ManageOrder from "./pages/ManageOrder";
+import ViewOrder from "./pages/ViewOrder";
 
 export const UserContext = createContext<User>({
   userid: 0,
@@ -105,6 +106,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/order" element={<Order />} />
+              <Route path="/vieworder" element={<ViewOrder />} />
               <Route
                 element={
                   <ProtectedRoutes
