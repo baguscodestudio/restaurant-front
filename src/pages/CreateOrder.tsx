@@ -12,9 +12,10 @@ import RemoveCartItemController from "../controller/RemoveCartItemController";
 import UpdateCartItemController from "../controller/UpdateCartItemController";
 import OrderItem from "../typings/OrderItem";
 
-const Order = () => {
+const CreateOrder = () => {
   const navigate = useNavigate();
   const [items, setItems] = useState<OrderItem[]>([]);
+  const [cart, setCart] = useState<OrderItem[]>([]);
   const { tablenum, setTablenum } = useContext(TableContext);
   const [confirmed, setConfirmed] = useState(false);
 
@@ -23,23 +24,18 @@ const Order = () => {
     let response = await GetItems.getMenuItems();
     if (response?.status === 200) {
       let items = response.data as OrderItem[];
-      items.map((item) => {
-        item.quantity = 0;
-      });
-      setItems(items);
-      fetchCart();
+      fetchCart(items);
     } else {
       toast.error("An error occured while getting items");
     }
   };
 
-  const fetchCart = async () => {
+  const fetchCart = async (currItems: OrderItem[]) => {
     let GetCart = new GetCartController();
     let response = await GetCart.getCart(tablenum);
     if (response?.status === 200) {
       let tempItems = response.data as OrderItem[];
-      let tempArr = [...items];
-      tempArr.map((item, index) => {
+      currItems.map((item, index) => {
         tempItems.map((cartItem, cartIndex) => {
           if (item.itemid === cartItem.itemid) {
             item.quantity = cartItem.quantity;
@@ -47,8 +43,9 @@ const Order = () => {
           }
         });
       });
-      setItems([...tempArr]);
-    } else {
+      setCart([...currItems]);
+      setItems([...currItems]);
+    } else if (response && response.response.status !== 500) {
       toast.error("An error occured while getting items");
     }
   };
@@ -57,9 +54,11 @@ const Order = () => {
     let total = getTotal();
     let CreateOrder = new CreateOrderController();
     let response = await CreateOrder.createOrder(tablenum, total, "ongoing");
-    if (response?.status === 200) {
+    if (response && response.status === 200) {
       toast("Successfully created the order, please wait for your order!");
       navigate("/");
+    } else if (response && response.response.status === 500) {
+      toast.error("You have already created the order, please wait");
     } else {
       toast.error("An error occured while getting items");
     }
@@ -118,9 +117,9 @@ const Order = () => {
 
   useEffect(() => {
     fetchItems();
-  }, []);
+  }, [tablenum]);
 
-  if (tablenum == 0) {
+  if (!confirmed) {
     return (
       <>
         <div className="mx-auto mt-52 flex flex-col items-center">
@@ -149,10 +148,14 @@ const Order = () => {
       <>
         <div className="absolute h-3/4 w-64 shadow-lg right-0 top-1/2 -translate-y-1/2 flex flex-col">
           <div className="grid grid-cols-1 gap-2 w-full p-2">
-            {items.map((item, index) => {
+            {cart.map((item, index) => {
+              console.log(item.itemid);
               if (item.quantity > 0) {
                 return (
-                  <div className="bg-neutral-300 rounded-lg flex h-20 overflow-clip">
+                  <div
+                    className="bg-neutral-300 rounded-lg flex h-20 overflow-clip"
+                    key={index}
+                  >
                     <img
                       src={item.photo}
                       className="h-full w-24 object-cover mr-2"
@@ -174,7 +177,7 @@ const Order = () => {
             onClick={handleCreateOrder}
             className="text-white mx-2 px-4 py-2 text-lg rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150 my-4"
           >
-            Create Order
+            Create CreateOrder
           </button>
         </div>
         <div className="mx-auto text-4xl my-10 font-bold">Menu List</div>
@@ -236,4 +239,4 @@ const Order = () => {
   }
 };
 
-export default Order;
+export default CreateOrder;

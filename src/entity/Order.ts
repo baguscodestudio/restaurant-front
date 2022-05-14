@@ -1,4 +1,5 @@
-import axios from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import OrderItem from "../typings/OrderItem";
 
 export default class Order {
   private tablenum?: number;
@@ -11,6 +12,13 @@ export default class Order {
     this.status = status;
   }
 
+  public async fetchOrders() {
+    return await axios
+      .get(`http://localhost:1337/order/`)
+      .then((response) => response)
+      .catch((err) => err);
+  }
+
   public async createOrder() {
     return await axios
       .post("http://localhost:1337/order/", {
@@ -19,12 +27,25 @@ export default class Order {
         status: this.status,
       })
       .then((response) => response)
-      .catch((err) => console.log("error occured", err));
+      .catch((err) => err);
   }
 
-  public async updateOrder() {
-    return await axios.put(`http://localhost:1337/order/${this.tablenum}`, {
-      status: this.status,
-    });
+  public async updateOrder(orderid: number, price: number, items: OrderItem[]) {
+    return await axios
+      .put(`http://localhost:1337/order/${orderid}`, {
+        price: price,
+        items: items,
+      })
+      .then((response) => response)
+      .catch((err) => err);
+  }
+
+  public async updateOrderStatus(orderid: number) {
+    return await axios
+      .put(`http://localhost:1337/order/status/${orderid}`, {
+        status: this.status,
+      })
+      .then((response) => response)
+      .catch((err) => err);
   }
 }

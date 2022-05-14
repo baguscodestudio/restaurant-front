@@ -12,7 +12,7 @@ export default class Cart {
     return await axios
       .get(`http://localhost:1337/cart/${this.tablenum}`)
       .then((response) => response)
-      .catch((err) => console.log("error occured", err));
+      .catch((err) => err);
   }
 
   public async addItem(item: OrderItem) {
@@ -21,14 +21,14 @@ export default class Cart {
         item: item,
       })
       .then((response) => response)
-      .catch((err) => console.log("error occured", err));
+      .catch((err) => err);
   }
 
   public async deleteItem(item: OrderItem) {
     return await axios
       .delete(`http://localhost:1337/cart/${this.tablenum}/${item.itemid}`)
       .then((response) => response)
-      .catch((err) => console.log("error occured", err));
+      .catch((err) => err);
   }
 
   public async updateItem(item: OrderItem) {
@@ -37,6 +37,6 @@ export default class Cart {
         item: item,
       })
       .then((response) => response)
-      .catch((err) => console.log("error occured", err));
+      .catch((err) => err);
   }
 }

@@ -16,7 +16,8 @@ import ManageMenu from "./pages/ManageMenu";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
-import Order from "./pages/Order";
+import Order from "./pages/CreateOrder";
+import ManageOrder from "./pages/ManageOrder";
 
 export const UserContext = createContext<User>({
   userid: 0,
@@ -94,7 +95,7 @@ function App() {
               newestOnTop={true}
               closeOnClick
               rtl={false}
-              pauseOnFocusLoss
+              pauseOnFocusLoss={false}
               draggable
               pauseOnHover
               theme="dark"
@@ -117,6 +118,7 @@ function App() {
                 <Route path="/admin" element={<AdminDashboard />} />
                 <Route path="/manageprofile" element={<ManageProfile />} />
                 <Route path="/manageuser" element={<ManageUser />} />
+                <Route path="/manageorder" element={<ManageOrder />} />
                 <Route path="/managemenu" element={<ManageMenu />} />
               </Route>
             </Routes>

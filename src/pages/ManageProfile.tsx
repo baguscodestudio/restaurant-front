@@ -32,6 +32,10 @@ const ManageProfile = () => {
     }
   };
 
+  useEffect(() => {
+    getRoles();
+  }, []);
+
   if (user.role === "admin" && action === "") {
     return (
       <>
