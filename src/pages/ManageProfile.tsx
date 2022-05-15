@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { UserContext } from "../App";
 import SearchBar from "../components/SearchBar";
@@ -21,14 +22,26 @@ const ManageProfile = () => {
     setUsers(response?.data);
   };
 
-  const handleRemove = async () => {
-    let RemoveProfile = new RemoveProfileController();
-    let response = await RemoveProfile.removeProfile(users[select].userid);
-    if (response?.status == 200) {
-      getRoles();
-      toast("Successfully removed user role");
+  const changePage = (page: string) => {
+    if (select !== -1) {
+      setAction(page);
     } else {
-      toast("Failed to remove user role");
+      toast.error("Select an order first!");
+    }
+  };
+
+  const handleRemove = async () => {
+    if (select !== -1) {
+      let RemoveProfile = new RemoveProfileController();
+      let response = await RemoveProfile.removeProfile(users[select].userid);
+      if (response?.status == 200) {
+        getRoles();
+        toast("Successfully removed user role");
+      } else {
+        toast("Failed to remove user role");
+      }
+    } else {
+      toast.error("Select an order first!");
     }
   };
 
@@ -83,7 +96,7 @@ const ManageProfile = () => {
           <div className="inline-flex w-full mt-auto text-white">
             <button
               className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
-              onClick={() => setAction("update")}
+              onClick={() => changePage("update")}
             >
               Update
             </button>
@@ -98,9 +111,19 @@ const ManageProfile = () => {
       </>
     );
   } else if (user.role === "admin" && action === "update") {
-    return <UpdateProfile user={users[select]} setAction={setAction} />;
+    return (
+      <>
+        <button
+          className="absolute bottom-10 left-10 bg-neutral-300 px-4 rounded-lg text-lg hover:bg-neutral-600 hover:scale-105 hover:text-white"
+          onClick={() => setAction("")}
+        >
+          Back
+        </button>
+        <UpdateProfile user={users[select]} setAction={setAction} />
+      </>
+    );
   } else {
-    return null;
+    return <Navigate to="/" />;
   }
 };
 

@@ -5,8 +5,9 @@ import User from "../typings/User";
 
 const UpdateUser: React.FC<{
   user: User;
+  getUsers: () => void;
   setAction: React.Dispatch<React.SetStateAction<string>>;
-}> = ({ user, setAction }) => {
+}> = ({ user, setAction, getUsers }) => {
   const [newUsername, setUsername] = useState(user.username);
   const [newPassword, setPassword] = useState("");
 
@@ -19,6 +20,7 @@ const UpdateUser: React.FC<{
     );
     if (response?.status == 200) {
       toast("Successfully updated user");
+      getUsers();
       setAction("");
     } else {
       toast("Failed to update user");

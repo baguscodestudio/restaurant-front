@@ -3,8 +3,10 @@ import { Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { UserContext } from "../App";
 import GetOrderController from "../controller/GetOrdersController";
+import MarkOrderController from "../controller/MarkOrderController";
 import RemoveOrderController from "../controller/RemoveOrderController";
 import Order from "../typings/Order";
+import CreateOrderStaff from "./CreateOrderStaff";
 import UpdateOrder from "./UpdateOrder";
 
 const ManageOrder = () => {
@@ -14,13 +16,40 @@ const ManageOrder = () => {
   const [select, setSelect] = useState(-1);
 
   const handleDelete = async () => {
-    let DeleteOrder = new RemoveOrderController();
-    let response = await DeleteOrder.removeOrder(orders[select].orderid);
-    if (response && response.status == 200) {
-      toast("Successfully deleted order!");
-      fetchOrders();
+    if (select !== -1) {
+      let DeleteOrder = new RemoveOrderController();
+      let response = await DeleteOrder.removeOrder(orders[select].orderid);
+      if (response && response.status == 200) {
+        toast("Successfully deleted order!");
+        fetchOrders();
+      } else {
+        toast.error("An error occured while deleting order");
+      }
     } else {
-      toast.error("An error occured while deleting order");
+      toast.error("Select an order first!");
+    }
+  };
+
+  const changePage = (page: string) => {
+    if (select !== -1) {
+      setAction(page);
+    } else {
+      toast.error("Select an order first!");
+    }
+  };
+
+  const handleOrderStatus = async () => {
+    if (select !== -1) {
+      let MarkOrder = new MarkOrderController();
+      let response = await MarkOrder.updateOrderStatus(orders[select]);
+      if (response.status === 200) {
+        toast("Successfully marked order as complete");
+        fetchOrders();
+      } else {
+        toast.error("Error occured while marking order as complete");
+      }
+    } else {
+      toast.error("Select an order first!");
     }
   };
 
@@ -45,13 +74,13 @@ const ManageOrder = () => {
         <div className="inline-flex mt-24 mx-auto text-white">
           <button
             className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
-            onClick={() => setAction("add")}
+            onClick={() => changePage("add")}
           >
             Add
           </button>
           <button
             className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
-            onClick={() => setAction("update")}
+            onClick={() => changePage("update")}
           >
             Update
           </button>
@@ -61,8 +90,14 @@ const ManageOrder = () => {
           >
             Delete
           </button>
+          <button
+            className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
+            onClick={handleOrderStatus}
+          >
+            Mark Complete
+          </button>
         </div>
-        <div className="grid-cols-4 gap-4 mt-10 mx-auto">
+        <div className="grid grid-cols-4 gap-4 mt-10 mx-auto">
           {orders.map((order, index) => {
             if (select == index)
               return (
@@ -80,7 +115,8 @@ const ManageOrder = () => {
                       <span>x{item.quantity}</span>
                     </div>
                   ))}
-                  <div className="mt-auto font-semibold">{`Subtotal: $${order.total}`}</div>
+                  <div className="mt-auto font-semibold">{`Table Number: ${order.tablenum}`}</div>
+                  <div className="font-semibold">{`Subtotal: $${order.total}`}</div>
                 </button>
               );
             else
@@ -99,7 +135,8 @@ const ManageOrder = () => {
                       <span>x{item.quantity}</span>
                     </div>
                   ))}
-                  <div className="mt-auto font-semibold">{`Subtotal: $${order.total}`}</div>
+                  <div className="mt-auto font-semibold">{`Table Number: ${order.tablenum}`}</div>
+                  <div className="font-semibold">{`Subtotal: $${order.total}`}</div>
                 </button>
               );
           })}
@@ -107,7 +144,29 @@ const ManageOrder = () => {
       </>
     );
   } else if (action === "update" && user.role === "staff") {
-    return <UpdateOrder order={orders[select]} />;
+    return (
+      <>
+        <button
+          className="absolute bottom-10 left-10 bg-neutral-300 px-4 rounded-lg text-lg hover:bg-neutral-600 hover:scale-105 hover:text-white"
+          onClick={() => setAction("")}
+        >
+          Back
+        </button>
+        <UpdateOrder order={orders[select]} />
+      </>
+    );
+  } else if (action === "add" && user.role === "staff") {
+    return (
+      <>
+        <button
+          className="absolute bottom-10 left-10 bg-neutral-300 px-4 rounded-lg text-lg hover:bg-neutral-600 hover:scale-105 hover:text-white"
+          onClick={() => setAction("")}
+        >
+          Back
+        </button>
+        <CreateOrderStaff />
+      </>
+    );
   } else {
     return <Navigate to="/" />;
   }

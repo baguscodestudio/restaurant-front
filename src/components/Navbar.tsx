@@ -19,7 +19,8 @@ const Navbar: React.FC<{ resetSession: () => void }> = ({ resetSession }) => {
           to="/order"
           className="h-full px-4 hover:text-white hover:bg-[#134E4A] flex items-center"
         >
-          Order {tablenum !== 0 && `Current table number: ${tablenum}`}
+          Order{" "}
+          {tablenum > 0 && tablenum && `Current table number: ${tablenum}`}
         </Link>
         {user.role === "admin" && (
           <Link

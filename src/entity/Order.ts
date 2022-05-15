@@ -1,15 +1,16 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios from "axios";
 import OrderItem from "../typings/OrderItem";
+import OrderType from "../typings/Order";
 
 export default class Order {
   private tablenum?: number;
   private price?: number;
-  private status?: string;
+  private orderid?: number;
 
-  constructor(tablenum?: number, price?: number, status?: string) {
+  constructor(tablenum?: number, price?: number, orderid?: number) {
     this.tablenum = tablenum;
     this.price = price;
-    this.status = status;
+    this.orderid = orderid;
   }
 
   public async fetchOrders() {
@@ -31,7 +32,15 @@ export default class Order {
       .post("http://localhost:1337/order/", {
         tablenum: this.tablenum,
         price: this.price,
-        status: this.status,
+      })
+      .then((response) => response)
+      .catch((err) => err);
+  }
+
+  public async markOrder(order: OrderType) {
+    return await axios
+      .post(`http://localhost:1337/order/complete/${this.orderid}`, {
+        order: order,
       })
       .then((response) => response)
       .catch((err) => err);
@@ -47,14 +56,7 @@ export default class Order {
       .catch((err) => err);
   }
 
-  public async updateOrderStatus(orderid: number) {
-    return await axios
-      .put(`http://localhost:1337/order/status/${orderid}`, {
-        status: this.status,
-      })
-      .then((response) => response)
-      .catch((err) => err);
-  }
+  public async updateOrderStatus(orderid: number) {}
 
   public async deleteOrder(orderid: number) {
     return await axios

@@ -7,7 +7,7 @@ import { UserContext } from "../App";
 import User from "../typings/User";
 import UpdateUser from "./UpdateUser";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import CreateUser from "./CreateUser";
 
 // Title of boundary
@@ -31,14 +31,26 @@ const ManageUser = () => {
     setUsers(response?.data);
   };
 
-  const handleDelete = async () => {
-    let DeleteUser = new DeleteUserController();
-    let response = await DeleteUser.deleteUser(users[select].userid);
-    if (response?.status == 200) {
-      toast("Successfully deleted User");
-      getUsers();
+  const changePage = (page: string) => {
+    if (select !== -1) {
+      setAction(page);
     } else {
-      toast("Failed to update user");
+      toast.error("Select an order first!");
+    }
+  };
+
+  const handleDelete = async () => {
+    if (select !== -1) {
+      let DeleteUser = new DeleteUserController();
+      let response = await DeleteUser.deleteUser(users[select].userid);
+      if (response?.status == 200) {
+        toast("Successfully deleted User");
+        getUsers();
+      } else {
+        toast("Failed to update user");
+      }
+    } else {
+      toast.error("Select an order first!");
     }
   };
 
@@ -55,13 +67,13 @@ const ManageUser = () => {
         <div className="inline-flex my-4 mx-auto text-white">
           <button
             className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
-            onClick={() => setAction("add")}
+            onClick={() => changePage("add")}
           >
             Add
           </button>
           <button
             className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
-            onClick={() => setAction("update")}
+            onClick={() => changePage("update")}
           >
             Update
           </button>
@@ -111,11 +123,35 @@ const ManageUser = () => {
       </>
     );
   } else if (user.role === "admin" && action === "update") {
-    return <UpdateUser user={users[select]} setAction={setAction} />;
+    return (
+      <>
+        <button
+          className="absolute bottom-10 left-10 bg-neutral-300 px-4 rounded-lg text-lg hover:bg-neutral-600 hover:scale-105 hover:text-white"
+          onClick={() => setAction("")}
+        >
+          Back
+        </button>
+        <UpdateUser
+          user={users[select]}
+          setAction={setAction}
+          getUsers={getUsers}
+        />
+      </>
+    );
   } else if (user.role === "admin" && action === "add") {
-    return <CreateUser setAction={setAction} getUsers={getUsers} />;
+    return (
+      <>
+        <button
+          className="absolute bottom-10 left-10 bg-neutral-300 px-4 rounded-lg text-lg hover:bg-neutral-600 hover:scale-105 hover:text-white"
+          onClick={() => setAction("")}
+        >
+          Back
+        </button>
+        <CreateUser setAction={setAction} getUsers={getUsers} />
+      </>
+    );
   } else {
-    return null;
+    return <Navigate to="/" />;
   }
 };
 

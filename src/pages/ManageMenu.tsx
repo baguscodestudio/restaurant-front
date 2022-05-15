@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { UserContext } from "../App";
 import SearchBar from "../components/SearchBar";
@@ -26,14 +27,26 @@ const ManageMenu = () => {
     }
   };
 
-  const handleRemove = async () => {
-    let RemoveItem = new RemoveItemController();
-    let response = await RemoveItem.removeItem(items[select].itemid);
-    if (response?.status === 200) {
-      toast("Successfully removed item");
-      fetchItems();
+  const changePage = (page: string) => {
+    if (select !== -1) {
+      setAction(page);
     } else {
-      toast.error("Failed to remove item!");
+      toast.error("Select an order first!");
+    }
+  };
+
+  const handleRemove = async () => {
+    if (select !== -1) {
+      let RemoveItem = new RemoveItemController();
+      let response = await RemoveItem.removeItem(items[select].itemid);
+      if (response?.status === 200) {
+        toast("Successfully removed item");
+        fetchItems();
+      } else {
+        toast.error("Failed to remove item!");
+      }
+    } else {
+      toast.error("Select an order first!");
     }
   };
 
@@ -47,13 +60,13 @@ const ManageMenu = () => {
         <div className="inline-flex mt-10 mx-auto text-white">
           <button
             className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
-            onClick={() => setAction("add")}
+            onClick={() => changePage("add")}
           >
             Add
           </button>
           <button
             className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
-            onClick={() => setAction("update")}
+            onClick={() => changePage("update")}
           >
             Update
           </button>
@@ -112,10 +125,30 @@ const ManageMenu = () => {
       </>
     );
   else if (user.role === "manager" && action === "update") {
-    return <UpdateItem item={items[select]} setAction={setAction} />;
+    return (
+      <>
+        <button
+          className="absolute bottom-10 left-10 bg-neutral-300 px-4 rounded-lg text-lg hover:bg-neutral-600 hover:scale-105 hover:text-white"
+          onClick={() => setAction("")}
+        >
+          Back
+        </button>
+        <UpdateItem item={items[select]} setAction={setAction} />
+      </>
+    );
   } else if (user.role === "manager" && action === "add") {
-    return <CreateItem setAction={setAction} />;
-  } else return null;
+    return (
+      <>
+        <button
+          className="absolute bottom-10 left-10 bg-neutral-300 px-4 rounded-lg text-lg hover:bg-neutral-600 hover:scale-105 hover:text-white"
+          onClick={() => setAction("")}
+        >
+          Back
+        </button>
+        <CreateItem setAction={setAction} />
+      </>
+    );
+  } else return <Navigate to="/" />;
 };
 
 export default ManageMenu;

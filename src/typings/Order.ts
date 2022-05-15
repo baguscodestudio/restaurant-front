@@ -4,6 +4,5 @@ export default interface Order {
   orderid: number;
   tablenum: number;
   total: number;
-  status: string;
   items: OrderItem[];
 }

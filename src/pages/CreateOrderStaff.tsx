@@ -10,7 +10,7 @@ import GetItemsController from "../controller/GetItemsController";
 import GetOrderTableController from "../controller/GetOrderTableController";
 import OrderItem from "../typings/OrderItem";
 
-const CreateOrder = () => {
+const CreateOrderStaff = () => {
   const navigate = useNavigate();
   const [items, setItems] = useState<OrderItem[]>([]);
   const [cart, setCart] = useState<OrderItem[]>([]);
@@ -125,12 +125,6 @@ const CreateOrder = () => {
             >
               Create Order
             </button>
-            <button
-              onClick={checkOrder}
-              className="text-white mx-2 px-4 py-4 text-lg rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
-            >
-              Check Order
-            </button>
           </div>
         </div>
       </>
@@ -236,4 +230,4 @@ const CreateOrder = () => {
   }
 };
 
-export default CreateOrder;
+export default CreateOrderStaff;
