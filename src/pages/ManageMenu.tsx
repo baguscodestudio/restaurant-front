@@ -5,6 +5,7 @@ import { UserContext } from "../App";
 import SearchBar from "../components/SearchBar";
 import GetItemsController from "../controller/GetItemsController";
 import RemoveItemController from "../controller/RemoveItemController";
+import SearchMenuItemController from "../controller/SearchMenuItemController";
 import MenuItem from "../typings/Item";
 import CreateItem from "./CreateItem";
 import UpdateItem from "./UpdateItem";
@@ -12,7 +13,6 @@ import UpdateItem from "./UpdateItem";
 // boundary title
 const ManageMenu = () => {
   const user = useContext(UserContext);
-  const [search, setSearch] = useState("");
   const [items, setItems] = useState<MenuItem[]>([]);
   const [select, setSelect] = useState(-1);
   const [action, setAction] = useState("");
@@ -24,6 +24,16 @@ const ManageMenu = () => {
       setItems(response.data);
     } else {
       toast.error("An error occured while getting items");
+    }
+  };
+
+  const handleSearch = async (search: string) => {
+    if (search) {
+      let SearchItem = new SearchMenuItemController();
+      let response = await SearchItem.searchMenuItem(search);
+      setItems(response?.data);
+    } else {
+      fetchItems();
     }
   };
 
@@ -78,7 +88,10 @@ const ManageMenu = () => {
           </button>
         </div>
         <div className="w-11/12 my-2 mx-auto">
-          <SearchBar setSearch={setSearch} />
+          <SearchBar
+            setSearch={handleSearch}
+            placeholder="Search menu item name"
+          />
         </div>
         <div className="w-11/12 h-3/5 bg-neutral-300 mx-auto mt-2 mb-auto px-10 py-4 text-lg flex flex-col">
           <table className="w-1/3">

@@ -2,9 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { UserContext } from "../App";
+import SearchBar from "../components/SearchBar";
 import GetOrderController from "../controller/GetOrdersController";
 import MarkOrderController from "../controller/MarkOrderController";
 import RemoveOrderController from "../controller/RemoveOrderController";
+import SearchOrderController from "../controller/SearchOrderController";
 import Order from "../typings/Order";
 import CreateOrderStaff from "./CreateOrderStaff";
 import UpdateOrder from "./UpdateOrder";
@@ -27,6 +29,16 @@ const ManageOrder = () => {
       }
     } else {
       toast.error("Select an order first!");
+    }
+  };
+
+  const handleSearch = async (search: string) => {
+    if (search) {
+      let SearchOrder = new SearchOrderController();
+      let response = await SearchOrder.searchOrder(search);
+      setOrders(response?.data);
+    } else {
+      fetchOrders();
     }
   };
 
@@ -96,6 +108,12 @@ const ManageOrder = () => {
           >
             Mark Complete
           </button>
+        </div>
+        <div className="w-11/12 my-2 mx-auto">
+          <SearchBar
+            setSearch={handleSearch}
+            placeholder="Search table number"
+          />
         </div>
         <div className="grid grid-cols-4 gap-4 mt-10 mx-auto">
           {orders.map((order, index) => {

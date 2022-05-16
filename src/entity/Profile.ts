@@ -12,12 +12,17 @@ export default class Profile {
   public async getUserRoles() {
     return await axios
       .get(`http://localhost:1337/roles/`)
-      .then((response) => {
-        return response;
+      .then((response) => response)
+      .catch((err) => err);
+  }
+
+  public async searchProfile(query: string) {
+    return await axios
+      .post("http://localhost:1337/roles/search", {
+        query: query,
       })
-      .catch((err) => {
-        console.log("Error occured", err);
-      });
+      .then((response) => response)
+      .catch((err) => err);
   }
 
   public async updateProfile() {
@@ -26,13 +31,13 @@ export default class Profile {
         role: this.role,
       })
       .then((response) => response)
-      .catch((err) => console.log("error occured", err));
+      .catch((err) => err);
   }
 
   public async removeProfile() {
     return await axios
       .delete(`http://localhost:1337/roles/${this.userid}`)
       .then((response) => response)
-      .catch((err) => console.log("error occured", err));
+      .catch((err) => err);
   }
 }

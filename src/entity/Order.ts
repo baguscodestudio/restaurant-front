@@ -27,6 +27,15 @@ export default class Order {
       .catch((err) => err);
   }
 
+  public async searchOrder(query: string) {
+    return await axios
+      .post("http://localhost:1337/order/search", {
+        query: query,
+      })
+      .then((response) => response)
+      .catch((err) => err);
+  }
+
   public async createOrder() {
     return await axios
       .post("http://localhost:1337/order/", {

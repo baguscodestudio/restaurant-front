@@ -5,13 +5,13 @@ import { UserContext } from "../App";
 import SearchBar from "../components/SearchBar";
 import GetRolesController from "../controller/GetRolesController";
 import RemoveProfileController from "../controller/RemoveProfileController";
+import SearchUserProfileController from "../controller/SearchUserProfileController";
 import User from "../typings/User";
 import UpdateProfile from "./UpdateProfile";
 
 const ManageProfile = () => {
   const user = useContext(UserContext);
 
-  const [search, setSearch] = useState("");
   const [users, setUsers] = useState<User[]>([]);
   const [select, setSelect] = useState(-1);
   const [action, setAction] = useState("");
@@ -20,6 +20,16 @@ const ManageProfile = () => {
     let GetRoles = new GetRolesController();
     let response = await GetRoles.getRoles();
     setUsers(response?.data);
+  };
+
+  const handleSearch = async (search: string) => {
+    if (search) {
+      let SearchProfile = new SearchUserProfileController();
+      let response = await SearchProfile.searchProfile(search);
+      setUsers(response?.data);
+    } else {
+      getRoles();
+    }
   };
 
   const changePage = (page: string) => {
@@ -53,7 +63,7 @@ const ManageProfile = () => {
     return (
       <>
         <div className="w-11/12 my-2 mx-auto">
-          <SearchBar setSearch={setSearch} />
+          <SearchBar setSearch={handleSearch} />
         </div>
         <div className="w-11/12 h-4/5 bg-neutral-300 mx-auto mt-2 mb-auto px-10 py-4 text-lg flex flex-col">
           <table className="w-1/3">
@@ -64,33 +74,29 @@ const ManageProfile = () => {
               </tr>
             </thead>
             <tbody>
-              {users
-                .filter((user) =>
-                  user.username.toLowerCase().includes(search.toLowerCase())
-                )
-                .map((user, index) => (
-                  <>
-                    {index == select ? (
-                      <tr
-                        key={index}
-                        className="text-white h-4 bg-[#27635e] hover:bg-[#134E4A] hover:cursor-pointer"
-                        onClick={() => setSelect(index)}
-                      >
-                        <td>{user.username}</td>
-                        <td>{user.role}</td>
-                      </tr>
-                    ) : (
-                      <tr
-                        key={index}
-                        className="h-4 hover:bg-[#134E4A] hover:text-white hover:cursor-pointer"
-                        onClick={() => setSelect(index)}
-                      >
-                        <td>{user.username}</td>
-                        <td>{user.role}</td>
-                      </tr>
-                    )}
-                  </>
-                ))}
+              {users.map((user, index) => (
+                <>
+                  {index == select ? (
+                    <tr
+                      key={index}
+                      className="text-white h-4 bg-[#27635e] hover:bg-[#134E4A] hover:cursor-pointer"
+                      onClick={() => setSelect(index)}
+                    >
+                      <td>{user.username}</td>
+                      <td>{user.role}</td>
+                    </tr>
+                  ) : (
+                    <tr
+                      key={index}
+                      className="h-4 hover:bg-[#134E4A] hover:text-white hover:cursor-pointer"
+                      onClick={() => setSelect(index)}
+                    >
+                      <td>{user.username}</td>
+                      <td>{user.role}</td>
+                    </tr>
+                  )}
+                </>
+              ))}
             </tbody>
           </table>
           <div className="inline-flex w-full mt-auto text-white">
