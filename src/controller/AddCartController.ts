@@ -6,7 +6,9 @@ export default class AddCartController {
     let cart = new Cart(tablenum);
     let responses = await Promise.all(
       items.map(async (item) => {
-        return await cart.addItem(item);
+        if (item.quantity > 0) {
+          return await cart.addItem(item);
+        }
       })
     );
     for (let i = 0; i < responses.length; i++) {

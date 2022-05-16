@@ -28,7 +28,16 @@ export default class User {
     return await axios
       .get("http://localhost:1337/useraccounts/")
       .then((response) => response)
-      .catch((err) => console.log("error occured", err));
+      .catch((err) => err);
+  }
+
+  public async searchUser(query: string) {
+    return await axios
+      .post("http://localhost:1337/useraccounts/search", {
+        query: query,
+      })
+      .then((response) => response)
+      .catch((err) => err);
   }
 
   public async updateUsername(userid: number) {
@@ -37,7 +46,7 @@ export default class User {
         username: this.username,
       })
       .then((response) => response)
-      .catch((err) => console.log("error occured", err));
+      .catch((err) => err);
   }
 
   public async updatePassword(userid: number) {
@@ -46,7 +55,7 @@ export default class User {
         password: this.password,
       })
       .then((response) => response)
-      .catch((err) => console.log("error occured", err));
+      .catch((err) => err);
   }
 
   public async updateUser(userid: number) {
@@ -56,14 +65,14 @@ export default class User {
         password: this.password,
       })
       .then((response) => response)
-      .catch((err) => console.log("error occured", err));
+      .catch((err) => err);
   }
 
   public async deleteUser(userid: number) {
     return await axios
       .delete(`http://localhost:1337/useraccounts/${userid}`)
       .then((response) => response)
-      .catch((err) => console.log("error occured", err));
+      .catch((err) => err);
   }
 
   public async createUser() {
@@ -73,6 +82,6 @@ export default class User {
         password: this.password,
       })
       .then((response) => response)
-      .catch((err) => console.log("error occured", err));
+      .catch((err) => err);
   }
 }

@@ -1,13 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Plus } from "styled-icons/bootstrap";
+import { Plus, Trash } from "styled-icons/bootstrap";
 import { Minus } from "styled-icons/boxicons-regular";
 import { TableContext } from "../App";
 import AddCartController from "../controller/AddCartController";
 import CreateOrderController from "../controller/CreateOrderController";
 import GetItemsController from "../controller/GetItemsController";
 import GetOrderTableController from "../controller/GetOrderTableController";
+import RemoveCartItemController from "../controller/RemoveCartItemController";
 import OrderItem from "../typings/OrderItem";
 
 const CreateOrder = () => {
@@ -79,6 +80,18 @@ const CreateOrder = () => {
     }
   };
 
+  const handleRemoveItem = async (index: number, item: OrderItem) => {
+    let RemoveItem = new RemoveCartItemController(tablenum);
+    let response = await RemoveItem.removeItem(item);
+    if (response.status === 200) {
+      let tempArr = [...cart];
+      tempArr.splice(index, 1);
+      setCart(tempArr);
+    } else {
+      toast.error("Error while removing item from cart");
+    }
+  };
+
   const handleChange = async (
     index: number,
     quantity: number,
@@ -144,20 +157,20 @@ const CreateOrder = () => {
               if (item.quantity > 0) {
                 return (
                   <div
-                    className="bg-neutral-300 rounded-lg flex h-20 overflow-clip"
+                    className="bg-neutral-300 rounded-lg flex flex-col h-20 overflow-clip text-sm px-3 py-2"
                     key={index}
                   >
-                    <img
-                      src={item.photo}
-                      className="h-full w-24 object-cover mr-2"
-                    />
-                    <div className="flex flex-col">
-                      <div className="font-bold">{item.name}</div>
-                      <div className="inline-flex w-full justify-between pr-4">
-                        <div>${item.price}</div>
-                        <div>{`x${item.quantity}`}</div>
-                      </div>
+                    <div className="font-bold">{item.name}</div>
+                    <div className="inline-flex w-full justify-between pr-4">
+                      <div>${item.price}</div>
+                      <div>{`x${item.quantity}`}</div>
                     </div>
+                    <button
+                      className="hover:text-red-500 hover:scale-110 ml-auto mt-auto mb-2 mr-2"
+                      onClick={() => handleRemoveItem(index, item)}
+                    >
+                      <Trash size="16" />
+                    </button>
                   </div>
                 );
               }

@@ -2,7 +2,7 @@ import React from "react";
 import { SearchAlt } from "@styled-icons/boxicons-regular/SearchAlt";
 
 const SearchBar: React.FC<{
-  setSearch: React.Dispatch<React.SetStateAction<string>>;
+  setSearch: (search: string) => void;
 }> = ({ setSearch }) => {
   return (
     <div className="inline-flex w-full items-center focus-within:ring-2">

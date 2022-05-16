@@ -42,7 +42,8 @@ const ViewOrder = () => {
             <span>x{item.quantity}</span>
           </div>
         ))}
-        <div className="mt-auto mb-4 font-semibold">{`Subtotal: ${getTotal()}`}</div>
+        <div className="mt-auto mb-4 font-semibold">{`Table number: ${tablenum}`}</div>
+        <div className="mb-4 font-semibold">{`Subtotal: $${getTotal()}`}</div>
       </div>
     </div>
   );

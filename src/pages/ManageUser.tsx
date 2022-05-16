@@ -9,6 +9,7 @@ import UpdateUser from "./UpdateUser";
 import { toast } from "react-toastify";
 import { Navigate, useNavigate } from "react-router-dom";
 import CreateUser from "./CreateUser";
+import SearchUserController from "../controller/SearchUserController";
 
 // Title of boundary
 const ManageUser = () => {
@@ -19,7 +20,6 @@ const ManageUser = () => {
   // username: String
   // setSearch(String search)
   const user = useContext(UserContext);
-  const [search, setSearch] = useState("");
   const [users, setUsers] = useState<User[]>([]);
   const [select, setSelect] = useState(-1);
   const [action, setAction] = useState("");
@@ -54,6 +54,16 @@ const ManageUser = () => {
     }
   };
 
+  const handleSearch = async (search: string) => {
+    if (search) {
+      let SearchUser = new SearchUserController();
+      let response = await SearchUser.searchUser(search);
+      setUsers(response?.data);
+    } else {
+      getUsers();
+    }
+  };
+
   useEffect(() => {
     getUsers();
   }, []);
@@ -62,12 +72,12 @@ const ManageUser = () => {
     return (
       <>
         <div className="w-11/12 my-2 mx-auto">
-          <SearchBar setSearch={setSearch} />
+          <SearchBar setSearch={handleSearch} />
         </div>
         <div className="inline-flex my-4 mx-auto text-white">
           <button
             className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
-            onClick={() => changePage("add")}
+            onClick={() => setAction("add")}
           >
             Add
           </button>
@@ -92,31 +102,27 @@ const ManageUser = () => {
               </tr>
             </thead>
             <tbody>
-              {users
-                .filter((user) =>
-                  user.username.toLowerCase().includes(search.toLowerCase())
-                )
-                .map((user, index) => (
-                  <>
-                    {index == select ? (
-                      <tr
-                        key={index}
-                        className="text-white h-4 bg-[#27635e] hover:bg-[#134E4A] hover:cursor-pointer"
-                        onClick={() => setSelect(index)}
-                      >
-                        <td>{user.username}</td>
-                      </tr>
-                    ) : (
-                      <tr
-                        key={index}
-                        className="h-4 hover:bg-[#134E4A] hover:text-white hover:cursor-pointer"
-                        onClick={() => setSelect(index)}
-                      >
-                        <td>{user.username}</td>
-                      </tr>
-                    )}
-                  </>
-                ))}
+              {users.map((user, index) => (
+                <>
+                  {index == select ? (
+                    <tr
+                      key={index}
+                      className="text-white h-4 bg-[#27635e] hover:bg-[#134E4A] hover:cursor-pointer"
+                      onClick={() => setSelect(index)}
+                    >
+                      <td>{user.username}</td>
+                    </tr>
+                  ) : (
+                    <tr
+                      key={index}
+                      className="h-4 hover:bg-[#134E4A] hover:text-white hover:cursor-pointer"
+                      onClick={() => setSelect(index)}
+                    >
+                      <td>{user.username}</td>
+                    </tr>
+                  )}
+                </>
+              ))}
             </tbody>
           </table>
         </div>

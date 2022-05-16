@@ -74,7 +74,7 @@ const ManageOrder = () => {
         <div className="inline-flex mt-24 mx-auto text-white">
           <button
             className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
-            onClick={() => changePage("add")}
+            onClick={() => setAction("add")}
           >
             Add
           </button>

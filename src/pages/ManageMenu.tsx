@@ -60,7 +60,7 @@ const ManageMenu = () => {
         <div className="inline-flex mt-10 mx-auto text-white">
           <button
             className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
-            onClick={() => changePage("add")}
+            onClick={() => setAction("add")}
           >
             Add
           </button>
@@ -90,35 +90,31 @@ const ManageMenu = () => {
               </tr>
             </thead>
             <tbody>
-              {items
-                .filter((item) =>
-                  item.name.toLowerCase().includes(search.toLowerCase())
-                )
-                .map((item, index) => (
-                  <>
-                    {index == select ? (
-                      <tr
-                        key={index}
-                        className="text-white h-4 bg-[#27635e] hover:bg-[#134E4A] hover:cursor-pointer"
-                        onClick={() => setSelect(index)}
-                      >
-                        <td>{item.name}</td>
-                        <td>${item.price.toFixed(2)}</td>
-                        <td>{item.category}</td>
-                      </tr>
-                    ) : (
-                      <tr
-                        key={index}
-                        className="h-4 hover:bg-[#134E4A] hover:text-white hover:cursor-pointer"
-                        onClick={() => setSelect(index)}
-                      >
-                        <td>{item.name}</td>
-                        <td>${item.price.toFixed(2)}</td>
-                        <td>{item.category}</td>
-                      </tr>
-                    )}
-                  </>
-                ))}
+              {items.map((item, index) => (
+                <>
+                  {index == select ? (
+                    <tr
+                      key={index}
+                      className="text-white h-4 bg-[#27635e] hover:bg-[#134E4A] hover:cursor-pointer"
+                      onClick={() => setSelect(index)}
+                    >
+                      <td>{item.name}</td>
+                      <td>${item.price.toFixed(2)}</td>
+                      <td>{item.category}</td>
+                    </tr>
+                  ) : (
+                    <tr
+                      key={index}
+                      className="h-4 hover:bg-[#134E4A] hover:text-white hover:cursor-pointer"
+                      onClick={() => setSelect(index)}
+                    >
+                      <td>{item.name}</td>
+                      <td>${item.price.toFixed(2)}</td>
+                      <td>{item.category}</td>
+                    </tr>
+                  )}
+                </>
+              ))}
             </tbody>
           </table>
         </div>
