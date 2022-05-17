@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { UserContext } from "../App";
 import SearchBar from "../components/SearchBar";
-import GetOrderController from "../controller/GetOrdersController";
+import GetOrdersController from "../controller/GetOrdersController";
 import MarkOrderController from "../controller/MarkOrderController";
 import RemoveOrderController from "../controller/RemoveOrderController";
 import SearchOrderController from "../controller/SearchOrderController";
@@ -69,7 +69,7 @@ const ManageOrder = () => {
   };
 
   const fetchOrders = async () => {
-    let GetOrder = new GetOrderController();
+    let GetOrder = new GetOrdersController();
     let response = await GetOrder.fetchOrders();
 
     if (response && response.status == 200) {

@@ -19,6 +19,7 @@ import Login from "./pages/Login";
 import Order from "./pages/CreateOrder";
 import ManageOrder from "./pages/ManageOrder";
 import ViewOrder from "./pages/ViewOrder";
+import Statistics from "./pages/Statistics";
 
 export const UserContext = createContext<User>({
   userid: 0,
@@ -116,6 +117,7 @@ function App() {
                   />
                 }
               >
+                <Route path="/statistics" element={<Statistics />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/admin" element={<AdminDashboard />} />
                 <Route path="/manageprofile" element={<ManageProfile />} />

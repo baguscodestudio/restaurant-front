@@ -46,6 +46,14 @@ const Navbar: React.FC<{ resetSession: () => void }> = ({ resetSession }) => {
             Manage Menu
           </Link>
         )}
+        {user.role === "owner" && (
+          <Link
+            to="/statistics"
+            className="h-full px-4 hover:text-white hover:bg-[#0B3835] flex items-center"
+          >
+            Statistics
+          </Link>
+        )}
       </div>
       {user.username.length > 0 ? (
         <>

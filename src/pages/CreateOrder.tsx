@@ -92,11 +92,7 @@ const CreateOrder = () => {
     }
   };
 
-  const handleChange = async (
-    index: number,
-    quantity: number,
-    previous: number
-  ) => {
+  const handleChange = async (index: number, quantity: number) => {
     if (quantity >= 0) {
       let tempArr = [...items];
       tempArr[index].quantity = quantity;
@@ -205,11 +201,7 @@ const CreateOrder = () => {
                 <button
                   className="border-2 rounded-lg mx-2 hover:bg-neutral-400 hover:text-white transition-colors"
                   onClick={() =>
-                    handleChange(
-                      index,
-                      item.quantity ? item.quantity + 1 : 1,
-                      item.quantity
-                    )
+                    handleChange(index, item.quantity ? item.quantity + 1 : 1)
                   }
                 >
                   <Plus size="24" />
@@ -218,19 +210,13 @@ const CreateOrder = () => {
                   type="text"
                   value={item.quantity}
                   onChange={(event) =>
-                    handleChange(
-                      index,
-                      parseInt(event.currentTarget.value),
-                      item.quantity
-                    )
+                    handleChange(index, parseInt(event.currentTarget.value))
                   }
                   className="border text-center w-6 appearance-none outline-none"
                 />
                 <button
                   className="border-2 rounded-lg mx-2 hover:bg-neutral-400 hover:text-white transition-colors"
-                  onClick={() =>
-                    handleChange(index, item.quantity - 1, item.quantity)
-                  }
+                  onClick={() => handleChange(index, item.quantity - 1)}
                 >
                   <Minus size="24" />
                 </button>
