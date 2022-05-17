@@ -1,3 +1,4 @@
+import { Dialog } from "@headlessui/react";
 import React, { useContext, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -16,12 +17,14 @@ const ManageOrder = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [action, setAction] = useState("");
   const [select, setSelect] = useState(-1);
+  const [open, setOpen] = useState(false);
 
   const handleDelete = async () => {
     if (select !== -1) {
       let DeleteOrder = new RemoveOrderController();
       let response = await DeleteOrder.removeOrder(orders[select].orderid);
       if (response && response.status == 200) {
+        setOpen(false);
         toast("Successfully deleted order!");
         fetchOrders();
       } else {
@@ -83,6 +86,41 @@ const ManageOrder = () => {
   if (action == "" && user.role === "staff") {
     return (
       <>
+        <Dialog
+          open={open}
+          onClose={() => setOpen(false)}
+          as="div"
+          className="relative z-10"
+        >
+          <div className="fixed inset-0 bg-black bg-opacity-25" />
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Title
+                  as="h3"
+                  className="text-lg font-medium leading-6 text-gray-900"
+                >
+                  Are you sure you want to delete this order?
+                </Dialog.Title>
+
+                <div className="w-full inline-flex text-white mt-4">
+                  <button
+                    className="mx-2 px-2 py-1 rounded-md bg-neutral-700 hover:bg-neutral-500 transition-colors duration-150"
+                    onClick={() => setOpen(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleDelete}
+                    className="mx-2 px-2 py-1 rounded-md bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </Dialog.Panel>
+            </div>
+          </div>
+        </Dialog>
         <div className="inline-flex mt-24 mx-auto text-white">
           <button
             className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
@@ -98,7 +136,7 @@ const ManageOrder = () => {
           </button>
           <button
             className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
-            onClick={handleDelete}
+            onClick={() => setOpen(true)}
           >
             Delete
           </button>

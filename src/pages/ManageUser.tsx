@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { Navigate, useNavigate } from "react-router-dom";
 import CreateUser from "./CreateUser";
 import SearchUserController from "../controller/SearchUserController";
+import { Dialog } from "@headlessui/react";
 
 // Title of boundary
 const ManageUser = () => {
@@ -23,6 +24,7 @@ const ManageUser = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [select, setSelect] = useState(-1);
   const [action, setAction] = useState("");
+  const [open, setOpen] = useState(false);
 
   // These are the functions of the boundary
   const getUsers = async () => {
@@ -44,6 +46,7 @@ const ManageUser = () => {
       let DeleteUser = new DeleteUserController();
       let response = await DeleteUser.deleteUser(users[select].userid);
       if (response?.status == 200) {
+        setOpen(false);
         toast("Successfully deleted User");
         getUsers();
       } else {
@@ -71,6 +74,41 @@ const ManageUser = () => {
   if (user.role == "admin" && action === "") {
     return (
       <>
+        <Dialog
+          open={open}
+          onClose={() => setOpen(false)}
+          as="div"
+          className="relative z-10"
+        >
+          <div className="fixed inset-0 bg-black bg-opacity-25" />
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Title
+                  as="h3"
+                  className="text-lg font-medium leading-6 text-gray-900"
+                >
+                  Are you sure you want to delete this order?
+                </Dialog.Title>
+
+                <div className="w-full inline-flex text-white mt-4">
+                  <button
+                    className="mx-2 px-2 py-1 rounded-md bg-neutral-700 hover:bg-neutral-500 transition-colors duration-150"
+                    onClick={() => setOpen(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleDelete}
+                    className="mx-2 px-2 py-1 rounded-md bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </Dialog.Panel>
+            </div>
+          </div>
+        </Dialog>
         <div className="w-11/12 my-2 mx-auto">
           <SearchBar setSearch={handleSearch} />
         </div>
@@ -89,7 +127,7 @@ const ManageUser = () => {
           </button>
           <button
             className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
-            onClick={handleDelete}
+            onClick={() => setOpen(true)}
           >
             Delete
           </button>
