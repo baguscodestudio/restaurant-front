@@ -46,10 +46,11 @@ export default class Order {
       .catch((err) => err);
   }
 
-  public async markOrder(order: OrderType) {
+  public async markOrder(order: OrderType, email: string) {
     return await axios
       .post(`http://localhost:1337/order/complete/${this.orderid}`, {
         order: order,
+        email: email,
       })
       .then((response) => response)
       .catch((err) => err);

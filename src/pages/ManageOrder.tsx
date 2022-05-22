@@ -18,6 +18,8 @@ const ManageOrder = () => {
   const [action, setAction] = useState("");
   const [select, setSelect] = useState(-1);
   const [open, setOpen] = useState(false);
+  const [isMarking, setMarking] = useState(false);
+  const [email, setEmail] = useState("");
 
   const handleDelete = async () => {
     if (select !== -1) {
@@ -56,10 +58,11 @@ const ManageOrder = () => {
   const handleOrderStatus = async () => {
     if (select !== -1) {
       let MarkOrder = new MarkOrderController();
-      let response = await MarkOrder.updateOrderStatus(orders[select]);
+      let response = await MarkOrder.updateOrderStatus(orders[select], email);
       if (response.status === 200) {
         toast("Successfully marked order as complete");
         fetchOrders();
+        setMarking(false);
       } else {
         toast.error("Error occured while marking order as complete");
       }
@@ -121,6 +124,48 @@ const ManageOrder = () => {
             </div>
           </div>
         </Dialog>
+        <Dialog
+          open={isMarking}
+          onClose={() => setMarking(false)}
+          as="div"
+          className="relative z-10"
+        >
+          <div className="fixed inset-0 bg-black bg-opacity-25" />
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Title
+                  as="h3"
+                  className="text-lg font-medium leading-6 text-gray-900"
+                >
+                  Please input the customer email!
+                </Dialog.Title>
+                <div className="mx-auto my-2">
+                  <input
+                    className="px-4 placeholder-gray-500 w-full border-2 rounded-lg text-xl"
+                    placeholder="Email"
+                    onChange={(event) => setEmail(event.currentTarget.value)}
+                  />
+                </div>
+
+                <div className="w-full inline-flex text-white mt-4">
+                  <button
+                    className="mx-2 px-2 py-1 rounded-md bg-neutral-700 hover:bg-neutral-500 transition-colors duration-150"
+                    onClick={() => setMarking(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleOrderStatus}
+                    className="mx-2 px-2 py-1 rounded-md bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
+                  >
+                    Mark Complete
+                  </button>
+                </div>
+              </Dialog.Panel>
+            </div>
+          </div>
+        </Dialog>
         <div className="inline-flex mt-24 mx-auto text-white">
           <button
             className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
@@ -142,7 +187,7 @@ const ManageOrder = () => {
           </button>
           <button
             className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
-            onClick={handleOrderStatus}
+            onClick={() => setMarking(true)}
           >
             Mark Complete
           </button>

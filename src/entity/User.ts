@@ -15,13 +15,8 @@ export default class User {
         username: this.username,
         password: this.password,
       })
-      .then((response) => {
-        return response;
-      })
-      .catch((err) => {
-        console.log("error occured", err);
-        return err;
-      });
+      .then((response) => response)
+      .catch((err) => err);
   }
 
   public async fetchUsers() {

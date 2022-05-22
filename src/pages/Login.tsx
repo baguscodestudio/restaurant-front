@@ -79,12 +79,6 @@ const Login = () => {
           >
             Login
           </button>
-          <button
-            className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
-            onClick={handleRegister}
-          >
-            Register
-          </button>
         </div>
       </form>
     </>
