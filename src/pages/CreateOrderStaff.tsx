@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Plus } from "styled-icons/bootstrap";
+import { Plus, Trash } from "styled-icons/bootstrap";
 import { Minus } from "styled-icons/boxicons-regular";
 import { TableContext } from "../App";
 import AddCartController from "../controller/AddCartController";
@@ -37,23 +37,23 @@ const CreateOrderStaff = () => {
     setCart(tempArr);
   };
 
+  const handleRemoveItem = async (index: number, item: OrderItem) => {
+    let tempArr = [...cart];
+    tempArr[index] = { ...item, tablenum: tablenum, quantity: 0 };
+    setCart(tempArr);
+  };
+
   const handleCreateOrder = async () => {
-    let AddCart = new AddCartController();
-    let success = await AddCart.addCart(tablenum, cart);
-    if (success) {
-      let total = getTotal();
-      let CreateOrder = new CreateOrderController();
-      let response = await CreateOrder.createOrder(tablenum, total);
-      if (response && response.status === 200) {
-        toast("Successfully created the order, please wait for your order!");
-        navigate("/");
-      } else if (response && response.response.status === 500) {
-        toast.error("You have already created the order, please wait");
-      } else {
-        toast.error("An error occured while creating order");
-      }
+    let total = getTotal();
+    let CreateOrder = new CreateOrderController();
+    let response = await CreateOrder.createOrder(tablenum, total, cart);
+    if (response && response.status === 200) {
+      toast("Successfully created the order, please wait for your order!");
+      navigate("/");
+    } else if (response && response.response.status === 500) {
+      toast.error("You have already created the order, please wait");
     } else {
-      toast.error("An error occured while adding cart items to order");
+      toast.error("An error occured while creating order");
     }
   };
 
@@ -66,16 +66,6 @@ const CreateOrderStaff = () => {
         navigate("/");
       }
       setConfirmed(!confirmed);
-    }
-  };
-
-  const checkOrder = async () => {
-    let GetOrder = new GetOrderTableController();
-    let response = await GetOrder.getOrder(tablenum);
-    if (response.status === 200) {
-      navigate("/vieworder");
-    } else {
-      toast.error("You do not have any order on going!");
     }
   };
 
@@ -134,20 +124,20 @@ const CreateOrderStaff = () => {
               if (item.quantity > 0) {
                 return (
                   <div
-                    className="bg-neutral-300 rounded-lg flex h-20 overflow-clip"
+                    className="bg-neutral-300 rounded-lg flex flex-col h-20 overflow-clip text-sm px-3 py-2"
                     key={index}
                   >
-                    <img
-                      src={item.photo}
-                      className="h-full w-24 object-cover mr-2"
-                    />
-                    <div className="flex flex-col">
-                      <div className="font-bold">{item.name}</div>
-                      <div className="inline-flex w-full justify-between pr-4">
-                        <div>${item.price}</div>
-                        <div>{`x${item.quantity}`}</div>
-                      </div>
+                    <div className="font-bold">{item.name}</div>
+                    <div className="inline-flex w-full justify-between pr-4">
+                      <div>${item.price}</div>
+                      <div>{`x${item.quantity}`}</div>
                     </div>
+                    <button
+                      className="hover:text-red-500 hover:scale-110 ml-auto mt-auto mb-2 mr-2"
+                      onClick={() => handleRemoveItem(index, item)}
+                    >
+                      <Trash size="16" />
+                    </button>
                   </div>
                 );
               }

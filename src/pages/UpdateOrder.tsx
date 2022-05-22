@@ -3,7 +3,6 @@ import { toast } from "react-toastify";
 import { Plus, Trash } from "styled-icons/bootstrap";
 import { Minus } from "styled-icons/boxicons-regular";
 import GetItemsController from "../controller/GetItemsController";
-import RemoveCartItemController from "../controller/RemoveCartItemController";
 import UpdateOrderController from "../controller/UpdateOrderController";
 import Order from "../typings/Order";
 import OrderItem from "../typings/OrderItem";
@@ -26,30 +25,34 @@ const UpdateOrder = ({ order }: { order: Order }) => {
     }
   };
 
-  const handleAddCart = (index: number, item: OrderItem) => {
-    let tempArr = [...cart];
-    tempArr[index] = { ...item, tablenum: order.tablenum };
-    setCart(tempArr);
+  const handleAddCart = (item: OrderItem) => {
+    let found = false;
+    for (let i = 0; i < cart.length; i++) {
+      if (cart[i].itemid === item.itemid) {
+        let tempArr = [...cart];
+        tempArr[i] = { ...item, tablenum: order.tablenum };
+        setCart(tempArr);
+        found = true;
+        break;
+      }
+    }
+    if (!found) {
+      let tempArr = [...cart];
+      tempArr[cart.length] = { ...item, tablenum: order.tablenum };
+      setCart(tempArr);
+    }
   };
 
   const handleRemoveItem = async (index: number, item: OrderItem) => {
-    let RemoveItem = new RemoveCartItemController(order.tablenum);
-    let response = await RemoveItem.removeItem(item);
-    if (response.status === 200) {
-      let tempArr = [...cart];
-      tempArr.splice(index, 1);
-      setCart(tempArr);
-    } else {
-      toast.error("Error while removing item from cart");
-    }
+    let tempArr = [...cart];
+    tempArr[index] = { ...item, tablenum: order.tablenum, quantity: 0 };
+    setCart(tempArr);
   };
 
   const handleUpdateOrder = async () => {
     let total = getTotal();
     let UpdateOrder = new UpdateOrderController();
-    console.log(order.orderid, total);
     let response = await UpdateOrder.updateOrder(order.orderid, total, cart);
-    console.log(response);
     if (response && response.status === 200) {
       toast("Successfully updated the order");
     } else if (response && response.response.status === 500) {
@@ -170,7 +173,7 @@ const UpdateOrder = ({ order }: { order: Order }) => {
               </button>
             </div>
             <button
-              onClick={() => handleAddCart(index, item)}
+              onClick={() => handleAddCart(item)}
               className="text-white mx-2 px-2 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150 my-4"
             >
               Add to cart

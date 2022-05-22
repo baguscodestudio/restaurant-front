@@ -4,11 +4,9 @@ import { toast } from "react-toastify";
 import { Plus, Trash } from "styled-icons/bootstrap";
 import { Minus } from "styled-icons/boxicons-regular";
 import { TableContext } from "../App";
-import AddCartController from "../controller/AddCartController";
 import CreateOrderController from "../controller/CreateOrderController";
 import GetItemsController from "../controller/GetItemsController";
 import GetOrderTableController from "../controller/GetOrderTableController";
-import RemoveCartItemController from "../controller/RemoveCartItemController";
 import OrderItem from "../typings/OrderItem";
 
 const CreateOrder = () => {
@@ -39,22 +37,16 @@ const CreateOrder = () => {
   };
 
   const handleCreateOrder = async () => {
-    let AddCart = new AddCartController();
-    let success = await AddCart.addCart(tablenum, cart);
-    if (success) {
-      let total = getTotal();
-      let CreateOrder = new CreateOrderController();
-      let response = await CreateOrder.createOrder(tablenum, total);
-      if (response && response.status === 200) {
-        toast("Successfully created the order, please wait for your order!");
-        navigate("/");
-      } else if (response && response.response.status === 500) {
-        toast.error("You have already created the order, please wait");
-      } else {
-        toast.error("An error occured while creating order");
-      }
+    let total = getTotal();
+    let CreateOrder = new CreateOrderController();
+    let response = await CreateOrder.createOrder(tablenum, total, cart);
+    if (response && response.status === 200) {
+      toast("Successfully created the order, please wait for your order!");
+      navigate("/");
+    } else if (response && response.response.status === 500) {
+      toast.error("You have already created the order, please wait");
     } else {
-      toast.error("An error occured while adding cart items to order");
+      toast.error("An error occured while creating order");
     }
   };
 
@@ -81,15 +73,9 @@ const CreateOrder = () => {
   };
 
   const handleRemoveItem = async (index: number, item: OrderItem) => {
-    let RemoveItem = new RemoveCartItemController(tablenum);
-    let response = await RemoveItem.removeItem(item);
-    if (response.status === 200) {
-      let tempArr = [...cart];
-      tempArr.splice(index, 1);
-      setCart(tempArr);
-    } else {
-      toast.error("Error while removing item from cart");
-    }
+    let tempArr = [...cart];
+    tempArr[index] = { ...item, tablenum: tablenum, quantity: 0 };
+    setCart(tempArr);
   };
 
   const handleChange = async (index: number, quantity: number) => {
