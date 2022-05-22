@@ -18,7 +18,7 @@ const CreateOrderStaff = () => {
   const [confirmed, setConfirmed] = useState(false);
 
   const fetchItems = async () => {
-    let GetItems = new GetItemsController();
+    let GetItems = new CreateOrderController();
     let response = await GetItems.getMenuItems();
     if (response?.status === 200) {
       let items = response.data as OrderItem[];
@@ -59,7 +59,7 @@ const CreateOrderStaff = () => {
 
   const toggleConfirm = async () => {
     if (tablenum) {
-      let GetOrder = new GetOrderTableController();
+      let GetOrder = new CreateOrderController();
       let response = await GetOrder.getOrder(tablenum);
       if (response.status === 200) {
         toast.error("You have already ordered! Please wait.");

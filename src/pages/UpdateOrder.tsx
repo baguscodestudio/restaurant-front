@@ -12,7 +12,7 @@ const UpdateOrder = ({ order }: { order: Order }) => {
   const [cart, setCart] = useState<OrderItem[]>([...order.items]);
 
   const fetchItems = async () => {
-    let GetItems = new GetItemsController();
+    let GetItems = new UpdateOrderController();
     let response = await GetItems.getMenuItems();
     if (response?.status === 200) {
       let items = response.data as OrderItem[];

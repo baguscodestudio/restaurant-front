@@ -1,6 +1,7 @@
 import Cart from "../entity/Cart";
 import Order from "../entity/Order";
 import OrderItem from "../typings/OrderItem";
+import Item from "../entity/Item";
 
 export default class CreateOrderController {
   public async createOrder(
@@ -28,5 +29,15 @@ export default class CreateOrderController {
     } else {
       return { status: 400 };
     }
+  }
+
+  public async getMenuItems() {
+    let item = new Item();
+    return await item.getItems();
+  }
+
+  public async getOrder(tablenum: number) {
+    let order = new Order(tablenum);
+    return await order.fetchOrderTable();
   }
 }
