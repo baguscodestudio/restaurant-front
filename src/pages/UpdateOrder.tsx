@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Plus, Trash } from "styled-icons/bootstrap";
 import { Minus } from "styled-icons/boxicons-regular";
-import GetItemsController from "../controller/GetItemsController";
 import UpdateOrderController from "../controller/UpdateOrderController";
 import Order from "../typings/Order";
 import OrderItem from "../typings/OrderItem";

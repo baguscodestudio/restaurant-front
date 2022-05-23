@@ -6,7 +6,7 @@ import { Dialog } from "@headlessui/react";
 import SearchBar from "../components/SearchBar";
 import GetItemsController from "../controller/GetItemsController";
 import RemoveItemController from "../controller/RemoveItemController";
-import SearchMenuItemController from "../controller/SearchMenuItemController";
+import SearchMenuItemStaffController from "../controller/SearchMenuItemStaffController";
 import MenuItem from "../typings/Item";
 import CreateItem from "./CreateItem";
 import UpdateItem from "./UpdateItem";
@@ -31,7 +31,7 @@ const ManageMenu = () => {
 
   const handleSearch = async (search: string) => {
     if (search) {
-      let SearchItem = new SearchMenuItemController();
+      let SearchItem = new SearchMenuItemStaffController();
       let response = await SearchItem.searchMenuItem(search);
       setItems(response?.data);
     } else {

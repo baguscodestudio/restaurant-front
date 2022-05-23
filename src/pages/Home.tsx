@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import ViewMenuItems from "./ViewMenuItems";
 
 const Home = () => {
   const deadline = new Date(2022, 4, 29);
@@ -22,7 +23,8 @@ const Home = () => {
 
   return (
     <>
-      <div className="text-6xl font-bold mx-auto mt-auto mb-2 text-red-800">
+      <ViewMenuItems />
+      {/* <div className="text-6xl font-bold mx-auto mt-auto mb-2 text-red-800">
         CSIT314 Restaurant
       </div>
       <div className="text-4xl font-semibold mx-auto my-2 text-red-500">
@@ -53,7 +55,7 @@ const Home = () => {
           </div>
           <div className="text-red-400 font-semibold mt-4">SECONDS</div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };
