@@ -105,21 +105,21 @@ const ManageMenu = () => {
             </div>
           </div>
         </Dialog>
-        <div className="inline-flex mt-10 mx-auto text-white">
+        <div className="inline-flex mt-10 mx-auto text-white sm:text-lg">
           <button
-            className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
+            className="mx-2 px-4 py-1 sm:py-4 sm:w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
             onClick={() => setAction("add")}
           >
             Add
           </button>
           <button
-            className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
+            className="mx-2 px-4 py-1 sm:py-4 sm:w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
             onClick={() => changePage("update")}
           >
             Update
           </button>
           <button
-            className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
+            className="mx-2 px-4 py-1 sm:py-4 sm:w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
             onClick={() => setOpen(true)}
           >
             Remove
@@ -131,8 +131,8 @@ const ManageMenu = () => {
             placeholder="Search menu item name"
           />
         </div>
-        <div className="w-11/12 h-3/5 bg-neutral-300 mx-auto mt-2 mb-auto px-10 py-4 text-lg flex flex-col">
-          <table className="w-1/3">
+        <div className="w-11/12 h-3/5 bg-neutral-300 mx-auto mt-2 mb-auto px-4 sm:px-10 py-4 text-base sm:text-lg flex flex-col">
+          <table className="sm:w-1/3">
             <thead className="text-left">
               <tr className="h-4">
                 <th>Item</th>

@@ -7,7 +7,7 @@ const Navbar: React.FC<{ resetSession: () => void }> = ({ resetSession }) => {
   const { tablenum } = useContext(TableContext);
 
   return (
-    <div className="w-full bg-neutral-300 h-12 shadow-lg inline-flex justify-end pr-4">
+    <div className="w-full bg-neutral-300 h-12 shadow-lg inline-flex justify-end pr-4 text-center">
       <div className="h-full inline-flex mr-auto ml-4">
         <Link
           to="/"

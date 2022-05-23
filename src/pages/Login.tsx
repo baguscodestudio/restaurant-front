@@ -50,7 +50,7 @@ const Login = () => {
   };
   return (
     <>
-      <div className="text-2xl mx-auto mt-40 mb-2 bg-neutral-300 w-1/4 h-36 flex justify-center items-center">
+      <div className="text-2xl mx-auto mt-40 mb-2 bg-neutral-300 w-2/3 sm:w-1/4 h-36 flex justify-center items-center">
         CSIT314 Restaurant
       </div>
       <form

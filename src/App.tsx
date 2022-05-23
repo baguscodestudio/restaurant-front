@@ -88,7 +88,7 @@ function App() {
 
   return (
     <Router>
-      <div className="h-screen w-screen flex flex-col">
+      <div className="h-screen w-screen flex flex-col text-xs sm:text-base">
         <UserContext.Provider value={user}>
           <TableContext.Provider value={{ tablenum, setTablenum }}>
             <ToastContainer

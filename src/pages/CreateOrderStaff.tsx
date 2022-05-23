@@ -115,8 +115,8 @@ const CreateOrderStaff = () => {
   } else {
     return (
       <>
-        <div className="absolute h-3/4 w-64 shadow-lg right-0 top-1/2 -translate-y-1/2 flex flex-col">
-          <div className="grid grid-cols-1 gap-2 w-full p-2">
+        <div className="absolute h-1/3 sm:h-3/4 w-64 shadow-lg right-0 bottom-0 sm:top-1/2 sm:-translate-y-1/2 flex flex-col border-2 sm:border-0">
+          <div className="grid grid-cols-1 gap-2 w-full p-2 overflow-auto">
             {cart.map((item, index) => {
               if (item.quantity > 0) {
                 return (
@@ -149,18 +149,18 @@ const CreateOrderStaff = () => {
           </button>
         </div>
         <div className="mx-auto text-4xl my-10 font-bold">Menu List</div>
-        <div className="mx-auto grid grid-cols-3 gap-4">
+        <div className="mx-auto grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
           {items.map((item, index) => (
             <div
-              className="flex flex-col w-52 h-96 rounded-lg overflow-clip shadow-xl"
+              className="flex flex-col w-36 h-64 sm:w-52 sm:h-96 rounded-lg overflow-clip shadow-xl"
               key={index}
             >
               <img
-                className="w-full h-32 object-cover object-center"
+                className="w-full h-20 sm:h-32 object-cover object-center"
                 src={item.photo}
                 alt={`Image of ${item.name}`}
               />
-              <div className="w-full px-4 py-2 text-lg font-semibold inline-flex items-center justify-between">
+              <div className="w-full px-4 py-2 sm:text-lg font-semibold inline-flex items-center justify-between">
                 <div>{item.name}</div>
                 <div>{`$${item.price}`}</div>
               </div>
@@ -191,7 +191,7 @@ const CreateOrderStaff = () => {
               </div>
               <button
                 onClick={() => handleAddCart(index, item)}
-                className="text-white mx-2 px-2 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150 my-4"
+                className="text-white mx-2 px-2 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150 my-1 sm:my-4"
               >
                 Add to cart
               </button>

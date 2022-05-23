@@ -39,18 +39,18 @@ const ViewMenuItems = () => {
       <div className="my-4 mx-auto w-3/4">
         <SearchBar placeholder="Search Menu Item" setSearch={handleSearch} />
       </div>
-      <div className="mx-auto my-4 grid grid-cols-3 gap-4">
+      <div className="mx-auto my-4 grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
         {items.map((item, index) => (
           <div
-            className="flex flex-col w-52 h-96 rounded-lg overflow-clip shadow-xl"
+            className="flex flex-col w-36 h-52 sm:w-52 sm:h-96 rounded-lg overflow-clip shadow-xl"
             key={index}
           >
             <img
-              className="w-full h-32 object-cover object-center"
+              className="w-full h-20 sm:h-32 object-cover object-center"
               src={item.photo}
               alt={`Image of ${item.name}`}
             />
-            <div className="w-full px-4 py-2 text-lg font-semibold inline-flex items-center justify-between">
+            <div className="w-full px-4 py-2 sm:text-lg font-semibold inline-flex items-center justify-between">
               <div>{item.name}</div>
               <div>{`$${item.price}`}</div>
             </div>

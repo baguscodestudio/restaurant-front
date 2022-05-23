@@ -166,27 +166,27 @@ const ManageOrder = () => {
             </div>
           </div>
         </Dialog>
-        <div className="inline-flex mt-24 mx-auto text-white">
+        <div className="inline-flex mt-10 sm:mt-24 mx-auto text-white sm:text-lg">
           <button
-            className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
+            className="mx-2 px-4 py-1 sm:py-4 sm:w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
             onClick={() => setAction("add")}
           >
             Add
           </button>
           <button
-            className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
+            className="mx-2 px-4 py-1 sm:py-4 sm:w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
             onClick={() => changePage("update")}
           >
             Update
           </button>
           <button
-            className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
+            className="mx-2 px-4 py-1 sm:py-4 sm:w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
             onClick={() => setOpen(true)}
           >
             Delete
           </button>
           <button
-            className="mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
+            className="mx-2 px-4 py-1 sm:py-4 sm:w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
             onClick={() => setMarking(true)}
           >
             Mark Complete
@@ -198,14 +198,14 @@ const ManageOrder = () => {
             placeholder="Search table number"
           />
         </div>
-        <div className="grid grid-cols-4 gap-4 mt-10 mx-auto">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 mt-10 mx-auto">
           {orders.map((order, index) => {
             if (select == index)
               return (
                 <button
                   onClick={() => setSelect(index)}
                   key={index}
-                  className="shadow-lg rounded-xl w-64 h-80 p-4 flex flex-col bg-[#27635e] text-white hover:bg-[#134E4A]"
+                  className="shadow-lg rounded-xl w-40 h-52 sm:w-64 sm:h-80 p-4 flex flex-col bg-[#27635e] text-white hover:bg-[#134E4A]"
                 >
                   {order.items.map((item, index) => (
                     <div
@@ -225,7 +225,7 @@ const ManageOrder = () => {
                 <button
                   onClick={() => setSelect(index)}
                   key={index}
-                  className="shadow-lg rounded-xl w-64 h-80 p-4 flex flex-col bg-neutral-300 hover:bg-[#134E4A] hover:text-white"
+                  className="shadow-lg rounded-xl w-40 h-52 sm:w-64 sm:h-80 p-4 flex flex-col bg-neutral-300 hover:bg-[#134E4A] hover:text-white"
                 >
                   {order.items.map((item, index) => (
                     <div
