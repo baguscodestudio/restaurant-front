@@ -96,6 +96,8 @@ const CreateOrder = () => {
     fetchItems();
   }, [tablenum]);
 
+  console.log(tablenum);
+
   if (!confirmed) {
     return (
       <>

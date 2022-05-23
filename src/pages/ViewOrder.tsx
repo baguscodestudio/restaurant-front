@@ -22,6 +22,10 @@ const ViewOrder = () => {
     }
   };
 
+  const makePayment = () => {
+    navigate(`/payment/${tablenum}`);
+  };
+
   const getTotal = () => {
     let total = 0;
     order?.items.map((item) => {
@@ -45,6 +49,12 @@ const ViewOrder = () => {
         <div className="mt-auto mb-4 font-semibold">{`Table number: ${tablenum}`}</div>
         <div className="mb-4 font-semibold">{`Subtotal: $${getTotal()}`}</div>
       </div>
+      <button
+        onClick={makePayment}
+        className="text-white mx-2 px-4 py-4 text-lg rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
+      >
+        Pay
+      </button>
     </div>
   );
 };

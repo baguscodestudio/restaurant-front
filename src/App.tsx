@@ -20,6 +20,7 @@ import Order from "./pages/CreateOrder";
 import ManageOrder from "./pages/ManageOrder";
 import ViewOrder from "./pages/ViewOrder";
 import Statistics from "./pages/Statistics";
+import Payment from "./pages/Payment";
 
 export const UserContext = createContext<User>({
   userid: 0,
@@ -108,6 +109,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/order" element={<Order />} />
               <Route path="/vieworder" element={<ViewOrder />} />
+              <Route path="/payment/:tablenum" element={<Payment />} />
               <Route
                 element={
                   <ProtectedRoutes

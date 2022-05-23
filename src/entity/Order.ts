@@ -27,6 +27,13 @@ export default class Order {
       .catch((err) => err);
   }
 
+  public async fetchCompletedOrders() {
+    return await axios
+      .get("http://localhost:1337/order/completedOrders")
+      .then((response) => response)
+      .catch((err) => err);
+  }
+
   public async searchOrder(query: string) {
     return await axios
       .post("http://localhost:1337/order/search", {
