@@ -42,6 +42,9 @@ const ManageOrder = () => {
       let SearchOrder = new SearchOrderController();
       let response = await SearchOrder.searchOrder(search);
       setOrders(response?.data);
+      if (response?.data.length == 0) {
+        toast.error("No order found");
+      }
     } else {
       fetchOrders();
     }

@@ -34,6 +34,9 @@ const ManageMenu = () => {
       let SearchItem = new SearchMenuItemStaffController();
       let response = await SearchItem.searchMenuItem(search);
       setItems(response?.data);
+      if (response?.data.length == 0) {
+        toast.error("No results found based on search terms");
+      }
     } else {
       fetchItems();
     }

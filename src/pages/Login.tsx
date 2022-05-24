@@ -34,20 +34,6 @@ const Login = () => {
     }
   };
 
-  const handleRegister = () => {
-    axios
-      .post("http://localhost:1337/register", {
-        username: username,
-        password: password,
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          console.log(response.data);
-        } else {
-          console.log("failed");
-        }
-      });
-  };
   return (
     <>
       <div className="text-2xl mx-auto mt-40 mb-2 bg-neutral-300 w-2/3 sm:w-1/4 h-36 flex justify-center items-center">

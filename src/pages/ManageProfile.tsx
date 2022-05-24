@@ -29,6 +29,9 @@ const ManageProfile = () => {
       let SearchProfile = new SearchUserProfileController();
       let response = await SearchProfile.searchProfile(search);
       setUsers(response?.data);
+      if (response?.data.length == 0) {
+        toast.error("No results found based on search terms");
+      }
     } else {
       getRoles();
     }

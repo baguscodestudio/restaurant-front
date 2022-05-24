@@ -13,6 +13,9 @@ const ViewMenuItems = () => {
       let SearchItem = new SearchMenuItemController();
       let response = await SearchItem.searchMenuItem(search);
       setItems(response?.data);
+      if (response?.data.length == 0) {
+        toast.error("No results found");
+      }
     } else {
       fetchItems();
     }

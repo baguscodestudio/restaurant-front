@@ -10,13 +10,22 @@ const UpdateItem: React.FC<{
   const [newItem, setItem] = useState<MenuItem>(item);
 
   const handleUpdate = async () => {
-    let UpdateItem = new UpdateItemController();
-    let response = await UpdateItem.updateItem(newItem);
-    if (response?.status === 200) {
-      toast(`Successfully updated ${item.name} to ${newItem.name}`);
-      setAction("");
+    if (
+      newItem.name === "" ||
+      newItem.photo === "" ||
+      newItem.category === "" ||
+      newItem.description === ""
+    ) {
+      toast.error("Please fill in all highlighted fields");
     } else {
-      toast.error(`Failed to update ${item.name}!`);
+      let UpdateItem = new UpdateItemController();
+      let response = await UpdateItem.updateItem(newItem);
+      if (response?.status === 200) {
+        toast(`Successfully updated ${item.name} to ${newItem.name}`);
+        setAction("");
+      } else {
+        toast.error(`Unable to save, please try again`);
+      }
     }
   };
 

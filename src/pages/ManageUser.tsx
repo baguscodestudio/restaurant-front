@@ -62,6 +62,9 @@ const ManageUser = () => {
       let SearchUser = new SearchUserController();
       let response = await SearchUser.searchUser(search);
       setUsers(response?.data);
+      if (response?.data.length == 0) {
+        toast.error("No results found based on search terms");
+      }
     } else {
       getUsers();
     }

@@ -17,20 +17,37 @@ const CreateItem = ({
     description: "",
   });
 
-  const storeMenu = async () => {
-    let CreateItem = new CreateItemController();
-    let response = await CreateItem.createItem(newItem);
-    if (response?.status === 200) {
-      toast(`Successfully created ${newItem.name}!`);
-      setAction("");
+  const storeMenu = async (
+    event:
+      | React.FormEvent<HTMLFormElement>
+      | React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+    if (
+      newItem.name === "" ||
+      newItem.photo === "" ||
+      newItem.category === "" ||
+      newItem.description === ""
+    ) {
+      toast.error("Please fill in all highlighted fields");
     } else {
-      toast.error(`Failed to update ${newItem.name}!`);
+      let CreateItem = new CreateItemController();
+      let response = await CreateItem.createItem(newItem);
+      if (response?.status === 200) {
+        toast(`Successfully created ${newItem.name}!`);
+        setAction("");
+      } else {
+        toast.error(`Unable to save, please try again`);
+      }
     }
   };
 
   return (
     <div className="bg-neutral-300 w-10/12 h-4/5 flex p-10 mx-auto my-auto">
-      <div className="flex flex-col mx-4 items-center">
+      <form
+        onSubmit={(event) => storeMenu(event)}
+        className="flex flex-col mx-4 items-center"
+      >
         <input
           className="mb-2 px-4 py-3 placeholder-gray-500 w-96 border-2 rounded-lg text-xl"
           placeholder="New Name"
@@ -79,7 +96,7 @@ const CreateItem = ({
         >
           Add Item
         </button>
-      </div>
+      </form>
     </div>
   );
 };

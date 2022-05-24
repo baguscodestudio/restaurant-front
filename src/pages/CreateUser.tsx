@@ -9,21 +9,33 @@ const CreateUser: React.FC<{
   const [newUsername, setUsername] = useState("");
   const [newPassword, setPassword] = useState("");
 
-  const handleCreate = async () => {
-    let CreateUser = new CreateUserController();
-    let response = await CreateUser.createUser(newUsername, newPassword);
-    if (response?.status == 200) {
-      toast("Successfully updated user");
-      getUsers();
-      setAction("");
+  const handleCreate = async (
+    event:
+      | React.FormEvent<HTMLFormElement>
+      | React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+    if (newUsername === "" || newPassword === "") {
+      toast.error("Please fill in all highlighted fields");
     } else {
-      toast("Failed to update user");
+      let CreateUser = new CreateUserController();
+      let response = await CreateUser.createUser(newUsername, newPassword);
+      if (response?.status == 200) {
+        toast("Successfully created user");
+        getUsers();
+        setAction("");
+      } else {
+        toast("Unable to create account, please try again");
+      }
     }
   };
 
   return (
     <div className="bg-neutral-300 w-10/12 h-4/5 flex p-10 mx-auto my-auto">
-      <div className="flex flex-col mx-4 items-center">
+      <form
+        onSubmit={(event) => handleCreate(event)}
+        className="flex flex-col mx-4 items-center"
+      >
         <input
           className="mb-2 px-4 py-3 placeholder-gray-500 w-96 border-2 rounded-lg text-xl"
           placeholder="New Username"
@@ -33,6 +45,7 @@ const CreateUser: React.FC<{
           className="my-2 px-4 py-3 placeholder-gray-500 w-96 border-2 rounded-lg text-xl"
           type="password"
           placeholder="New Password"
+          pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
           onChange={(event) => setPassword(event.currentTarget.value)}
         />
         <button
@@ -41,7 +54,7 @@ const CreateUser: React.FC<{
         >
           Add User
         </button>
-      </div>
+      </form>
     </div>
   );
 };
