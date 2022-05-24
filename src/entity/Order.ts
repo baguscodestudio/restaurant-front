@@ -15,28 +15,28 @@ export default class Order {
 
   public async fetchOrders() {
     return await axios
-      .get(`http://localhost:1337/order/`)
+      .get(`${import.meta.env.REST_URL}/order/`)
       .then((response) => response)
       .catch((err) => err);
   }
 
   public async fetchOrderTable() {
     return await axios
-      .get(`http://localhost:1337/order/${this.tablenum}`)
+      .get(`${import.meta.env.REST_URL}/order/${this.tablenum}`)
       .then((response) => response)
       .catch((err) => err);
   }
 
   public async fetchCompletedOrders() {
     return await axios
-      .get("http://localhost:1337/order/completedOrders")
+      .get(`${import.meta.env.REST_URL}/order/completedOrders`)
       .then((response) => response)
       .catch((err) => err);
   }
 
   public async searchOrder(query: string) {
     return await axios
-      .post("http://localhost:1337/order/search", {
+      .post(`${import.meta.env.REST_URL}/order/search`, {
         query: query,
       })
       .then((response) => response)
@@ -45,7 +45,7 @@ export default class Order {
 
   public async createOrder() {
     return await axios
-      .post("http://localhost:1337/order/", {
+      .post(`${import.meta.env.REST_URL}/order/`, {
         tablenum: this.tablenum,
         price: this.price,
       })
@@ -55,7 +55,7 @@ export default class Order {
 
   public async markOrder(order: OrderType, email: string) {
     return await axios
-      .post(`http://localhost:1337/order/complete/${this.orderid}`, {
+      .post(`${import.meta.env.REST_URL}/order/complete/${this.orderid}`, {
         order: order,
         email: email,
       })
@@ -65,7 +65,7 @@ export default class Order {
 
   public async updateOrder(orderid: number, price: number, items: OrderItem[]) {
     return await axios
-      .put(`http://localhost:1337/order/${orderid}`, {
+      .put(`${import.meta.env.REST_URL}/order/${orderid}`, {
         price: price,
         items: items,
       })
@@ -73,11 +73,9 @@ export default class Order {
       .catch((err) => err);
   }
 
-  public async updateOrderStatus(orderid: number) {}
-
   public async deleteOrder(orderid: number) {
     return await axios
-      .delete(`http://localhost:1337/order/${orderid}`)
+      .delete(`${import.meta.env.REST_URL}/order/${orderid}`)
       .then((response) => response)
       .catch((err) => err);
   }

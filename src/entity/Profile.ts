@@ -11,14 +11,14 @@ export default class Profile {
 
   public async getUserRoles() {
     return await axios
-      .get(`http://localhost:1337/roles/`)
+      .get(`${import.meta.env.REST_URL}/roles/`)
       .then((response) => response)
       .catch((err) => err);
   }
 
   public async searchProfile(query: string) {
     return await axios
-      .post("http://localhost:1337/roles/search", {
+      .post(`${import.meta.env.REST_URL}/roles/search`, {
         query: query,
       })
       .then((response) => response)
@@ -27,7 +27,7 @@ export default class Profile {
 
   public async updateProfile() {
     return await axios
-      .put(`http://localhost:1337/roles/${this.userid}`, {
+      .put(`${import.meta.env.REST_URL}/roles/${this.userid}`, {
         role: this.role,
       })
       .then((response) => response)
@@ -36,7 +36,7 @@ export default class Profile {
 
   public async removeProfile() {
     return await axios
-      .delete(`http://localhost:1337/roles/${this.userid}`)
+      .delete(`${import.meta.env.REST_URL}/roles/${this.userid}`)
       .then((response) => response)
       .catch((err) => err);
   }
