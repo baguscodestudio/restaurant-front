@@ -6,4 +6,9 @@ export default class CreatePaymentController {
     let OrderEntity = new Order(undefined, undefined, order.orderid);
     return await OrderEntity.markOrder(order, email);
   }
+
+  public async getOrder(tablenum: number) {
+    let order = new Order(tablenum);
+    return await order.fetchOrderTable();
+  }
 }

@@ -25,7 +25,7 @@ const Payment = () => {
   };
 
   const getOrder = async () => {
-    let GetOrder = new GetOrderTableController();
+    let GetOrder = new CreatePaymentController();
     let response = await GetOrder.getOrder(parseInt(params.tablenum!));
     if (response.status === 200) {
       console.log(response);
