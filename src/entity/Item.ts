@@ -12,14 +12,14 @@ export default class Item {
   //functions
   public async getItems() {
     return await axios
-      .get(`${import.meta.env.REST_URL}/items`)
+      .get(`${import.meta.env.VITE_REST_URL}/items`)
       .then((response) => response)
       .catch((err) => err);
   }
 
   public async searchItem(query: string) {
     return await axios
-      .post(`${import.meta.env.REST_URL}/items/search`, {
+      .post(`${import.meta.env.VITE_REST_URL}/items/search`, {
         query: query,
       })
       .then((response) => response)
@@ -28,21 +28,21 @@ export default class Item {
 
   public async storeMenuItem(newItem: MenuItem) {
     return await axios
-      .post(`${import.meta.env.REST_URL}/items`, newItem)
+      .post(`${import.meta.env.VITE_REST_URL}/items`, newItem)
       .then((response) => response)
       .catch((err) => err);
   }
 
   public async updateItem(newItem: MenuItem) {
     return await axios
-      .put(`${import.meta.env.REST_URL}/items/${newItem.itemid}`, newItem)
+      .put(`${import.meta.env.VITE_REST_URL}/items/${newItem.itemid}`, newItem)
       .then((response) => response)
       .catch((err) => err);
   }
 
   public async removeItem() {
     return await axios
-      .delete(`${import.meta.env.REST_URL}/items/${this.itemid}`)
+      .delete(`${import.meta.env.VITE_REST_URL}/items/${this.itemid}`)
       .then((response) => response)
       .catch((err) => err);
   }

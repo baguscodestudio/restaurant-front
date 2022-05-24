@@ -11,7 +11,7 @@ export default class User {
 
   public async login() {
     return await axios
-      .post(`${import.meta.env.REST_URL}/login`, {
+      .post(`${import.meta.env.VITE_REST_URL}/login`, {
         username: this.username,
         password: this.password,
       })
@@ -21,14 +21,14 @@ export default class User {
 
   public async fetchUsers() {
     return await axios
-      .get(`${import.meta.env.REST_URL}/useraccounts/`)
+      .get(`${import.meta.env.VITE_REST_URL}/useraccounts/`)
       .then((response) => response)
       .catch((err) => err);
   }
 
   public async searchUser(query: string) {
     return await axios
-      .post(`${import.meta.env.REST_URL}/useraccounts/search`, {
+      .post(`${import.meta.env.VITE_REST_URL}/useraccounts/search`, {
         query: query,
       })
       .then((response) => response)
@@ -37,7 +37,7 @@ export default class User {
 
   public async updateUsername(userid: number) {
     return await axios
-      .put(`${import.meta.env.REST_URL}/useraccounts/username/${userid}`, {
+      .put(`${import.meta.env.VITE_REST_URL}/useraccounts/username/${userid}`, {
         username: this.username,
       })
       .then((response) => response)
@@ -46,7 +46,7 @@ export default class User {
 
   public async updatePassword(userid: number) {
     return await axios
-      .put(`${import.meta.env.REST_URL}/useraccounts/password/${userid}`, {
+      .put(`${import.meta.env.VITE_REST_URL}/useraccounts/password/${userid}`, {
         password: this.password,
       })
       .then((response) => response)
@@ -55,7 +55,7 @@ export default class User {
 
   public async updateUser(userid: number) {
     return await axios
-      .put(`${import.meta.env.REST_URL}/useraccounts/${userid}`, {
+      .put(`${import.meta.env.VITE_REST_URL}/useraccounts/${userid}`, {
         username: this.username,
         password: this.password,
       })
@@ -65,14 +65,14 @@ export default class User {
 
   public async deleteUser(userid: number) {
     return await axios
-      .delete(`${import.meta.env.REST_URL}/useraccounts/${userid}`)
+      .delete(`${import.meta.env.VITE_REST_URL}/useraccounts/${userid}`)
       .then((response) => response)
       .catch((err) => err);
   }
 
   public async createUser() {
     return await axios
-      .post(`${import.meta.env.REST_URL}/register`, {
+      .post(`${import.meta.env.VITE_REST_URL}/register`, {
         username: this.username,
         password: this.password,
       })

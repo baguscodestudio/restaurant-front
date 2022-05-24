@@ -10,14 +10,14 @@ export default class Cart {
 
   public async getCart() {
     return await axios
-      .get(`${import.meta.env.REST_URL}/cart/${this.tablenum}`)
+      .get(`${import.meta.env.VITE_REST_URL}/cart/${this.tablenum}`)
       .then((response) => response)
       .catch((err) => err);
   }
 
   public async addItem(item: OrderItem) {
     return await axios
-      .post(`${import.meta.env.REST_URL}/cart/${this.tablenum}`, {
+      .post(`${import.meta.env.VITE_REST_URL}/cart/${this.tablenum}`, {
         item: item,
       })
       .then((response) => response)
@@ -27,7 +27,7 @@ export default class Cart {
   public async deleteItem(item: OrderItem) {
     return await axios
       .delete(
-        `${import.meta.env.REST_URL}/cart/${this.tablenum}/${item.itemid}`
+        `${import.meta.env.VITE_REST_URL}/cart/${this.tablenum}/${item.itemid}`
       )
       .then((response) => response)
       .catch((err) => err);
@@ -35,7 +35,7 @@ export default class Cart {
 
   public async updateItem(item: OrderItem) {
     return await axios
-      .put(`${import.meta.env.REST_URL}/cart/${this.tablenum}`, {
+      .put(`${import.meta.env.VITE_REST_URL}/cart/${this.tablenum}`, {
         item: item,
       })
       .then((response) => response)
