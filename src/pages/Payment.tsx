@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import CreatePaymentController from "../controller/CreatePaymentController";
-import GetOrderTableController from "../controller/GetOrderTableController";
 import Order from "../typings/Order";
 
 const Payment = () => {
@@ -25,7 +24,7 @@ const Payment = () => {
   };
 
   const getOrder = async () => {
-    let GetOrder = new GetOrderTableController();
+    let GetOrder = new CreatePaymentController();
     let response = await GetOrder.getOrder(parseInt(params.tablenum!));
     if (response.status === 200) {
       console.log(response);
