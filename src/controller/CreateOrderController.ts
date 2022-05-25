@@ -18,6 +18,7 @@ export default class CreateOrderController {
         }
       })
     );
+    console.log(responses);
     for (let i = 0; i < responses.length; i++) {
       if (responses[i].status !== 200) {
         success = false;
