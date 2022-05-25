@@ -91,7 +91,7 @@ const ManageUser = () => {
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900"
                 >
-                  Are you sure you want to delete this order?
+                  Are you sure you want to delete this user?
                 </Dialog.Title>
 
                 <div className="w-full inline-flex text-white mt-4">

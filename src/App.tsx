@@ -44,8 +44,10 @@ function App() {
   const useAuth = async () => {
     await axios
       .post(
-        "http://localhost:1337/token",
-        {},
+        `${import.meta.env.VITE_REST_URL}/token`,
+        {
+          withCredentials: true,
+        },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,

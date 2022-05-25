@@ -50,7 +50,7 @@ const CreateUser: React.FC<{
         />
         <button
           className="text-white my-2 mx-2 px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
-          onClick={handleCreate}
+          type="submit"
         >
           Add User
         </button>
