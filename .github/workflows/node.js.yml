@@ -23,7 +23,7 @@ jobs:
       - name: Cypress
         uses: cypress-io/github-action@v2
         with:
-          start: npm dev
+          start: npm run dev
         env:
           VITE_REST_URL: ${{ secrets.CYPRESS_REST_URL }}
 

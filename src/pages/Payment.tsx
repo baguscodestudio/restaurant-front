@@ -7,18 +7,28 @@ import Order from "../typings/Order";
 const Payment = () => {
   const [order, setOrder] = useState<Order>();
   const [email, setEmail] = useState("");
+  const [card, setCard] = useState("");
   const params = useParams();
   const navigate = useNavigate();
 
-  const handlePayment = async () => {
-    if (order) {
-      let CreatePayment = new CreatePaymentController();
-      let response = await CreatePayment.createPayment(order, email);
-      if (response.status === 200) {
-        toast("Successfully paid your order!");
-        navigate("/");
-      } else {
-        toast.error("Failed to make payment!");
+  const handlePayment = async (
+    event:
+      | React.FormEvent<HTMLFormElement>
+      | React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+    if (email === "" || card === "") {
+      toast.error("Invalid payment details, please try again.");
+    } else {
+      if (order) {
+        let CreatePayment = new CreatePaymentController();
+        let response = await CreatePayment.createPayment(order, email);
+        if (response.status === 200) {
+          toast("Successfully paid your order!");
+          navigate("/");
+        } else {
+          toast.error("Failed to make payment!");
+        }
       }
     }
   };
@@ -45,10 +55,14 @@ const Payment = () => {
           <div className="text-lg my-4">Table Number: {params.tablenum}</div>
           <div className="text-lg my-4">Payment Total: ${order?.total}</div>
         </div>
-        <div className="flex flex-col mx-4 items-center">
+        <form
+          onSubmit={(event) => handlePayment(event)}
+          className="flex flex-col mx-4 items-center"
+        >
           <input
             className="mb-2 px-4 py-3 placeholder-gray-500 w-96 border-2 rounded-lg text-xl"
             placeholder="Credit/Debit Card"
+            onChange={(event) => setCard(event.currentTarget.value)}
           />
           <input
             className="mb-2 px-4 py-3 placeholder-gray-500 w-96 border-2 rounded-lg text-xl"
@@ -58,11 +72,11 @@ const Payment = () => {
           />
           <button
             className="text-white my-2 mx-auto px-4 py-4 text-lg w-96 rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
-            onClick={handlePayment}
+            type="submit"
           >
             Pay
           </button>
-        </div>
+        </form>
       </div>
     </>
   );
