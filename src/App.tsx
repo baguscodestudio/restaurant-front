@@ -21,6 +21,7 @@ import ManageOrder from "./pages/ManageOrder";
 import ViewOrder from "./pages/ViewOrder";
 import Statistics from "./pages/Statistics";
 import Payment from "./pages/Payment";
+import ManageCoupon from "./pages/ManageCoupon";
 
 export const UserContext = createContext<User>({
   userid: 0,
@@ -127,6 +128,7 @@ function App() {
                 <Route path="/manageprofile" element={<ManageProfile />} />
                 <Route path="/manageuser" element={<ManageUser />} />
                 <Route path="/manageorder" element={<ManageOrder />} />
+                <Route path="/managecoupon" element={<ManageCoupon />} />
                 <Route path="/managemenu" element={<ManageMenu />} />
               </Route>
             </Routes>

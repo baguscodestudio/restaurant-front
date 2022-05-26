@@ -42,12 +42,20 @@ const Navbar: React.FC<{ resetSession: () => void }> = ({ resetSession }) => {
           </Link>
         )}
         {user.role === "manager" && (
-          <Link
-            to="/managemenu"
-            className="h-full px-4 hover:text-white hover:bg-[#0B3835] flex items-center"
-          >
-            Manage Menu
-          </Link>
+          <>
+            <Link
+              to="/managemenu"
+              className="h-full px-4 hover:text-white hover:bg-[#0B3835] flex items-center"
+            >
+              Manage Menu
+            </Link>
+            <Link
+              to="/managecoupon"
+              className="h-full px-4 hover:text-white hover:bg-[#0B3835] flex items-center"
+            >
+              Manage Coupon
+            </Link>
+          </>
         )}
         {user.role === "owner" && (
           <Link
