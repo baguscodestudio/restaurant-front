@@ -60,7 +60,12 @@ const CreateOrder = () => {
     }
   };
 
-  const checkOrder = async () => {
+  const checkOrder = async (
+    event:
+      | React.FormEvent<HTMLFormElement>
+      | React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
     let GetOrder = new CreateOrderController();
     let response = await GetOrder.getOrder(tablenum);
     if (response.status === 200) {
@@ -101,7 +106,10 @@ const CreateOrder = () => {
   if (!confirmed) {
     return (
       <>
-        <div className="mx-auto mt-52 flex flex-col items-center">
+        <form
+          onSubmit={(event) => checkOrder(event)}
+          className="mx-auto mt-52 flex flex-col items-center"
+        >
           <div className="text-4xl sm:text-6xl font-bold my-4">
             Table Number
           </div>
@@ -123,13 +131,13 @@ const CreateOrder = () => {
               Create Order
             </button>
             <button
-              onClick={checkOrder}
+              type="submit"
               className="text-white mx-2 px-4 py-4 text-lg rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
             >
               Check Order
             </button>
           </div>
-        </div>
+        </form>
       </>
     );
   } else {
@@ -197,6 +205,8 @@ const CreateOrder = () => {
                 <input
                   type="text"
                   value={item.quantity}
+                  min={0}
+                  max={100}
                   onChange={(event) =>
                     handleChange(index, parseInt(event.currentTarget.value))
                   }

@@ -177,6 +177,8 @@ const CreateOrderStaff = () => {
                 <input
                   type="text"
                   value={item.quantity}
+                  min={0}
+                  max={100}
                   onChange={(event) =>
                     handleChange(index, parseInt(event.currentTarget.value))
                   }

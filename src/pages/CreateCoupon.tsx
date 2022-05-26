@@ -58,6 +58,8 @@ const CreateItem = ({
           className="mb-2 px-4 py-3 placeholder-gray-500 w-96 border-2 rounded-lg text-xl"
           placeholder="Discount (percentage)"
           type="number"
+          min={0}
+          max={100}
           onChange={(event) => {
             setCoupon({
               ...newCoupon,
