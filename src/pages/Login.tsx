@@ -45,6 +45,7 @@ const Login = () => {
       >
         <div className="mx-auto mb-2 mt-12">
           <input
+            id="login-username"
             className="px-4 py-3 placeholder-gray-500 w-96 border-2 rounded-lg text-xl"
             placeholder="Username"
             onChange={(event) => setUsername(event.currentTarget.value)}
@@ -52,6 +53,7 @@ const Login = () => {
         </div>
         <div className="mx-auto my-2">
           <input
+            id="login-password"
             className="px-4 py-3 placeholder-gray-500 w-96 border-2 rounded-lg text-xl"
             placeholder="Password"
             type="password"
