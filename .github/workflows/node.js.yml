@@ -10,7 +10,9 @@ on:
     branches: [main]
 
 jobs:
-  test-development:
+  TDD:
+    env:
+      VITE_REST_URL: ${{ secrets.CYPRESS_REST_URL }}
     runs-on: ubuntu-latest
 
     strategy:
@@ -24,8 +26,6 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           start: npm run dev
-        env:
-          VITE_REST_URL: ${{ secrets.CYPRESS_REST_URL }}
 
   build:
     runs-on: ubuntu-latest
