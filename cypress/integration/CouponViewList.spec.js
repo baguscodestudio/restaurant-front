@@ -10,6 +10,7 @@ describe("View Coupon List", () => {
   });
 
   it("View coupon list", (done) => {
+    cy.log(Cypress.env("VITE_REST_URL"));
     cy.visit("http://localhost:3000/managecoupon");
 
     cy.get("th").first().should("have.text", "Coupon");

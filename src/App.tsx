@@ -1,6 +1,7 @@
 import { useEffect, useState, createContext } from "react";
 import "./App.css";
 import axios from "axios";
+import { terminal } from "virtual:terminal";
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
@@ -83,6 +84,7 @@ function App() {
   };
 
   useEffect(() => {
+    terminal.info("Rest URL from ENV", import.meta.env.VITE_REST_URL);
     const user = JSON.parse(localStorage.getItem("userData")!);
     if (user) {
       setUser(user);
