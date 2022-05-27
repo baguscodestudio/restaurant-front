@@ -65,7 +65,7 @@ const Statistics = () => {
           </div>
         </div>
         <div className="w-full inline-flex justify-around px-10 my-8">
-          <div className="w-full bg-neutral-300 rounded-lg h-80 mx-4 px-4 flex flex-col">
+          <div className="w-full bg-neutral-300 rounded-lg h-80 mx-4 px-4 flex flex-col overflow-auto">
             <div className="font-semibold my-2 border-b-2">Customers</div>
             <table>
               <thead>
@@ -76,7 +76,7 @@ const Statistics = () => {
                   <th>Last Visited</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="overflow-auto">
                 {data
                   ? Object.keys(data.customers).map((customer) => (
                       <tr>

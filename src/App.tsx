@@ -57,7 +57,6 @@ function App() {
       )
       .then((response) => response.data)
       .then((data) => {
-        console.log(data);
         if (data.tokenVerificationData.access) {
           setUser(JSON.parse(localStorage.getItem("userData")!));
         } else {

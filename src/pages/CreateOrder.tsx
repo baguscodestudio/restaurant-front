@@ -49,7 +49,7 @@ const CreateOrder = () => {
   };
 
   const toggleConfirm = async () => {
-    if (tablenum) {
+    if (tablenum <= 200 && tablenum > 0) {
       let GetOrder = new CreateOrderController();
       let response = await GetOrder.getOrder(tablenum);
       if (response.status === 200) {
@@ -57,6 +57,8 @@ const CreateOrder = () => {
         navigate("/");
       }
       setConfirmed(!confirmed);
+    } else {
+      toast.error("Invalid table number! Choose between 1 to 200!");
     }
   };
 
@@ -65,13 +67,17 @@ const CreateOrder = () => {
       | React.FormEvent<HTMLFormElement>
       | React.MouseEvent<HTMLButtonElement>
   ) => {
-    event.preventDefault();
-    let GetOrder = new CreateOrderController();
-    let response = await GetOrder.getOrder(tablenum);
-    if (response.status === 200) {
-      navigate("/vieworder");
+    if (tablenum <= 200 && tablenum > 0) {
+      event.preventDefault();
+      let GetOrder = new CreateOrderController();
+      let response = await GetOrder.getOrder(tablenum);
+      if (response.status === 200) {
+        navigate("/vieworder");
+      } else {
+        toast.error("You do not have any order on going!");
+      }
     } else {
-      toast.error("You do not have any order on going!");
+      toast.error("Invalid table number! Choose between 1 to 200!");
     }
   };
 
@@ -101,15 +107,10 @@ const CreateOrder = () => {
     fetchItems();
   }, [tablenum]);
 
-  console.log(tablenum);
-
   if (!confirmed) {
     return (
       <>
-        <form
-          onSubmit={(event) => checkOrder(event)}
-          className="mx-auto mt-52 flex flex-col items-center"
-        >
+        <div className="mx-auto mt-52 flex flex-col items-center">
           <div className="text-4xl sm:text-6xl font-bold my-4">
             Table Number
           </div>
@@ -131,13 +132,13 @@ const CreateOrder = () => {
               Create Order
             </button>
             <button
-              type="submit"
+              onClick={checkOrder}
               className="text-white mx-2 px-4 py-4 text-lg rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
             >
               Check Order
             </button>
           </div>
-        </form>
+        </div>
       </>
     );
   } else {
@@ -177,7 +178,10 @@ const CreateOrder = () => {
           </button>
         </div>
         <div className="mx-auto text-4xl my-10 font-bold">Menu List</div>
-        <div className="mx-auto grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
+        <div
+          id="items-list"
+          className="mx-auto grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4"
+        >
           {items.map((item, index) => (
             <div
               className="flex flex-col w-36 h-64 sm:w-52 sm:h-96 rounded-lg overflow-clip shadow-xl"

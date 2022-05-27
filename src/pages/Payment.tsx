@@ -37,7 +37,6 @@ const Payment = () => {
     let GetOrder = new CreatePaymentController();
     let response = await GetOrder.getOrder(parseInt(params.tablenum!));
     if (response.status === 200) {
-      console.log(response);
       setOrder(response.data);
     } else {
       toast.error("You do not have any order on going!");
@@ -60,11 +59,13 @@ const Payment = () => {
           className="flex flex-col mx-4 items-center"
         >
           <input
+            id="card-info"
             className="mb-2 px-4 py-3 placeholder-gray-500 w-96 border-2 rounded-lg text-xl"
             placeholder="Credit/Debit Card"
             onChange={(event) => setCard(event.currentTarget.value)}
           />
           <input
+            id="email"
             className="mb-2 px-4 py-3 placeholder-gray-500 w-96 border-2 rounded-lg text-xl"
             placeholder="Your email"
             type="email"

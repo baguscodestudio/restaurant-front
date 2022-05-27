@@ -55,7 +55,7 @@ const CreateOrderStaff = () => {
   };
 
   const toggleConfirm = async () => {
-    if (tablenum) {
+    if (tablenum <= 200 && tablenum > 0) {
       let GetOrder = new CreateOrderController();
       let response = await GetOrder.getOrder(tablenum);
       if (response.status === 200) {
@@ -63,6 +63,8 @@ const CreateOrderStaff = () => {
         navigate("/");
       }
       setConfirmed(!confirmed);
+    } else {
+      toast.error("Invalid table number! Choose between 1 to 200!");
     }
   };
 
