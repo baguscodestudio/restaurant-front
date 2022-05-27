@@ -35,6 +35,7 @@ describe("View Coupon List", () => {
           .last()
           .invoke("text")
           .should("match", /[\d]{1,2}-[\d]{1,2}-[\d]{4}/);
+        done();
       });
   });
 });

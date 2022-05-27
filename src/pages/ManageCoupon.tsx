@@ -3,7 +3,6 @@ import { Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { UserContext } from "../App";
 import { Dialog } from "@headlessui/react";
-import { terminal } from "virtual:terminal";
 
 import GetCouponsController from "../controller/GetCouponsController";
 import RemoveCouponController from "../controller/RemoveCouponController";
@@ -21,7 +20,6 @@ const ManageCoupon = () => {
   const fetchCoupons = async () => {
     let GetCoupons = new GetCouponsController();
     let response = await GetCoupons.fetchCoupons();
-    terminal.info("Response", response);
     if (response?.status === 200) {
       setCoupons(response.data);
     } else {
