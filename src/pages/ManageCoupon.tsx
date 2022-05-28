@@ -33,13 +33,13 @@ const ManageCoupon = () => {
       let response = await RemoveCoupons.deleteCoupon(coupons[select].code);
       if (response?.status === 200) {
         setOpen(false);
-        toast("Successfully removed item");
+        toast("Successfully removed coupon");
         fetchCoupons();
       } else {
-        toast.error("Failed to remove item!");
+        toast.error("Failed to remove coupon!");
       }
     } else {
-      toast.error("Select an order first!");
+      toast.error("Select a coupon first!");
     }
   };
 

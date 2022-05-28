@@ -1,42 +1,46 @@
-import Chance from "Chance";
-
-const chance = new Chance();
-
-let tablenum = chance.integer({ min: 1, max: 200 });
-
 describe("Customer Make Payment", () => {
-  it(`Create Order with Table Number ${tablenum}`, () => {
-    cy.visit("http://localhost:3000/order");
-    cy.get('input[type="number"]').type(tablenum);
-    cy.get("button").contains("Create Order").click();
-    cy.contains("Menu List").should("exist");
-    cy.get("#items-list > div")
-      .its("length")
-      .then((items) => {
-        let loop_items = chance.integer({ min: 1, max: items });
-        for (let i = 1; i <= loop_items; i++) {
-          let amount = chance.integer({ min: 1, max: 10 });
-          cy.get(`#items-list > div:nth-child(${i})`)
-            .find('input[type="text"]')
-            .type(amount);
-          cy.get(`#items-list > div:nth-child(${i})`)
-            .contains("Add to cart")
-            .click();
-        }
-        cy.contains("Create Order").click();
-      });
-  });
+  let table = 0;
+  it(`Create Order`, () => {
+    cy.chance("integer", { min: 1, max: 200 }).then((tablenum) => {
+      table = tablenum;
+      cy.visit("http://localhost:3000/order");
+      cy.get('input[type="number"]').type(tablenum);
+      cy.get("button").contains("Create Order").click();
+      cy.contains("Menu List").should("exist");
+      cy.get("#items-list > div")
+        .its("length")
+        .then((items) => {
+          cy.chance("integer", { min: 1, max: items }).then((loop_items) => {
+            for (let i = 1; i <= loop_items; i++) {
+              cy.chance("integer", { min: 1, max: 10 }).then((amount) => {
+                cy.get(`#items-list > div:nth-child(${i})`)
+                  .find('input[type="text"]')
+                  .type(amount);
+                cy.get(`#items-list > div:nth-child(${i})`)
+                  .contains("Add to cart")
+                  .click();
+              });
+            }
+            cy.contains("Create Order").click();
+          });
+        });
+    });
 
-  it("Make Payment", () => {
-    cy.visit("http://localhost:3000/order");
-    cy.get('input[type="number"]').type(tablenum);
-    cy.get("button").contains("Check Order").click();
-    cy.contains("Pay").should("exist");
-    cy.contains("Pay").click();
-    cy.contains("Table Number").should("exist");
-    cy.contains("Payment Total").should("exist");
-    cy.get("#card-info").type(chance.cc());
-    cy.get("#email").type(chance.email({ domain: "gmail.com" }));
-    cy.get('button[type="submit"]').click();
+    it("Make Payment", () => {
+      cy.visit("http://localhost:3000/order");
+      cy.get('input[type="number"]').type(table);
+      cy.get("button").contains("Check Order").click();
+      cy.contains("Pay").should("exist");
+      cy.contains("Pay").click();
+      cy.contains("Table Number").should("exist");
+      cy.contains("Payment Total").should("exist");
+      cy.chance("email", { domain: "gmail.com" }).then((email) => {
+        cy.chance("cc").then((creditcard) => {
+          cy.get("#card-info").type(creditcard);
+          cy.get("#email").type(email);
+        });
+      });
+      cy.get('button[type="submit"]').click();
+    });
   });
 });

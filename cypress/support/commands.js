@@ -23,3 +23,11 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+Cypress.Commands.overwrite("task", (origFn, name, ...args) => {
+  return origFn(name, args);
+});
+
+// if you're gonna use `chance` plugin a lot, you can also add a custom command
+Cypress.Commands.add("chance", (...args) => {
+  return cy.task("chance", ...args);
+});

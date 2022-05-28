@@ -19,4 +19,23 @@
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
+  const chance = require("chance").Chance();
+  // lodash should be installed alongside with cypress.
+  // If it doesn't resolve, you'll need to install it manually
+  const _ = require("lodash");
+
+  on(
+    "task",
+    _.mapValues(
+      {
+        chance(method, ...args) {
+          return chance[method](...args);
+        },
+      },
+      (func) => (args) =>
+        Promise.resolve(func(...args))
+          // ensure we return null instead of undefined to satisfy cy.task
+          .then((val) => (val === undefined ? null : val))
+    )
+  );
 };
