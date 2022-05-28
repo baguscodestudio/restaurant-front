@@ -27,7 +27,7 @@ describe("Customer Make Payment", () => {
     });
   });
 
-  it("Make Payment", () => {
+  after(() => {
     cy.visit("http://localhost:3000/order");
     cy.get('input[type="number"]').type(table);
     cy.get("button").contains("Check Order").click();
