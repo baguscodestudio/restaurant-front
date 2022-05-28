@@ -34,8 +34,8 @@ describe("Customer Make Payment", () => {
     cy.visit("http://localhost:3000/order");
     cy.get('input[type="number"]').type(table);
     cy.get("button").contains("Check Order").click();
-    cy.get("button").should("exist");
-    cy.get("button").click();
+    cy.get("#payment-button").should("exist");
+    cy.get("#payment-button").click();
     cy.contains("Table Number").should("exist");
     cy.contains("Payment Total").should("exist");
     cy.chance("email", { domain: "gmail.com" }).then((email) => {

@@ -51,6 +51,7 @@ const ViewOrder = () => {
       </div>
       <button
         onClick={makePayment}
+        id="payment-button"
         className="text-white mx-2 px-4 py-4 text-lg rounded-lg bg-[#134E4A] hover:bg-[#27635e] transition-colors duration-150"
       >
         Pay
