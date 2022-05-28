@@ -25,22 +25,22 @@ describe("Customer Make Payment", () => {
           });
         });
     });
+  });
 
-    it("Make Payment", () => {
-      cy.visit("http://localhost:3000/order");
-      cy.get('input[type="number"]').type(table);
-      cy.get("button").contains("Check Order").click();
-      cy.contains("Pay").should("exist");
-      cy.contains("Pay").click();
-      cy.contains("Table Number").should("exist");
-      cy.contains("Payment Total").should("exist");
-      cy.chance("email", { domain: "gmail.com" }).then((email) => {
-        cy.chance("cc").then((creditcard) => {
-          cy.get("#card-info").type(creditcard);
-          cy.get("#email").type(email);
-        });
+  it("Make Payment", () => {
+    cy.visit("http://localhost:3000/order");
+    cy.get('input[type="number"]').type(table);
+    cy.get("button").contains("Check Order").click();
+    cy.contains("Pay").should("exist");
+    cy.contains("Pay").click();
+    cy.contains("Table Number").should("exist");
+    cy.contains("Payment Total").should("exist");
+    cy.chance("email", { domain: "gmail.com" }).then((email) => {
+      cy.chance("cc").then((creditcard) => {
+        cy.get("#card-info").type(creditcard);
+        cy.get("#email").type(email);
       });
-      cy.get('button[type="submit"]').click();
     });
+    cy.get('button[type="submit"]').click();
   });
 });
