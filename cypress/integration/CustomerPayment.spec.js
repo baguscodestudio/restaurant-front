@@ -22,12 +22,15 @@ describe("Customer Make Payment", () => {
               });
             }
             cy.contains("Create Order").click();
+            cy.contains(
+              "Successfully created the order, please wait for your order"
+            );
           });
         });
     });
   });
 
-  after(() => {
+  it("Make Payment", () => {
     cy.visit("http://localhost:3000/order");
     cy.get('input[type="number"]').type(table);
     cy.get("button").contains("Check Order").click();

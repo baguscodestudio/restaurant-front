@@ -22,6 +22,9 @@ describe("Customer Add Cart & Create Order", () => {
                   });
                 }
                 cy.contains("Create Order").click();
+                cy.contains(
+                  "Successfully created the order, please wait for your order"
+                );
               }
             );
           });
