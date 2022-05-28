@@ -2,7 +2,7 @@ describe("View Stats", () => {
   beforeEach(() => {
     cy.visit("http://localhost:3000/login");
     cy.get("#login-username").type("deepan");
-    cy.get("#login-password").type("1234");
+    cy.get("#login-password").type("Csit12345");
 
     cy.get("button").click();
 
